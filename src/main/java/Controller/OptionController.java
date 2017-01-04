@@ -1,6 +1,7 @@
-package Controller.ControllerExceptions;
+package Controller;
 
 import Controller.AbstractController;
+import Controller.ControllerExceptions.ControllerException;
 import Domain.Option;
 import Repository.IRepository;
 import Utils.Pair.Pair;

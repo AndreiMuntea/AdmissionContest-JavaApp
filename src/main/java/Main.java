@@ -1,6 +1,6 @@
 
 import Controller.CandidateController;
-import Controller.ControllerExceptions.OptionController;
+import Controller.OptionController;
 import Controller.SectionController;
 import DatabaseManager.DatabaseManager;
 import DatabaseManager.TableManager.AbstractTableManager;
@@ -17,9 +17,6 @@ import Validator.CandidateValidator;
 import Validator.IValidator;
 import Validator.OptionValidator;
 import Validator.SectionValidator;
-import javafx.scene.chart.PieChart;
-
-import java.sql.*;
 
 /**
  * Created by andrei on 2017-01-03.
