@@ -1,4 +1,7 @@
 
+import Controller.CandidateController;
+import Controller.ControllerExceptions.OptionController;
+import Controller.SectionController;
 import DatabaseManager.DatabaseManager;
 import DatabaseManager.TableManager.AbstractTableManager;
 import DatabaseManager.TableManager.CandidateTableManager;
@@ -10,6 +13,10 @@ import Domain.Section;
 import Repository.DatabaseRepository;
 import Repository.IRepository;
 import Utils.Pair.Pair;
+import Validator.CandidateValidator;
+import Validator.IValidator;
+import Validator.OptionValidator;
+import Validator.SectionValidator;
 import javafx.scene.chart.PieChart;
 
 import java.sql.*;
@@ -32,12 +39,19 @@ public class Main {
 
         AbstractTableManager<Integer, Candidate> candidateTableManager = new CandidateTableManager("candidates");
         IRepository<Integer, Candidate> crepo = new DatabaseRepository<Integer, Candidate>(dbManager, candidateTableManager, 5);
+        IValidator<Candidate> cvalidator = new CandidateValidator();
+        CandidateController cctr = new CandidateController(crepo, cvalidator);
 
         AbstractTableManager<Integer, Section> sectionTableManager = new SectionTableManager("sections");
         IRepository<Integer, Section> srepo = new DatabaseRepository<Integer, Section>(dbManager, sectionTableManager, 5);
+        IValidator<Section> svalidator = new SectionValidator();
+        SectionController sctr = new SectionController(srepo, svalidator);
+
 
         AbstractTableManager<Pair<Integer, Integer>, Option> optionTableManager = new OptionTableManager("options");
         IRepository<Pair<Integer, Integer>, Option> orepo = new DatabaseRepository<Pair<Integer, Integer>, Option>(dbManager, optionTableManager, 5);
+        IValidator<Option> ovalidator = new OptionValidator();
+        OptionController optionController = new OptionController(orepo, ovalidator);
 
         Candidate c  = new Candidate(1,"Ionica","Calea Dunarii",10.0,"0727126338");
         Candidate uc = new Candidate(2,"Marcel","Calea Turzii",5.0,"0726761562");
@@ -50,8 +64,6 @@ public class Main {
         Option o12 = new Option(1, 2);
         Option o21 = new Option(2, 1);
 
-        crepo.RemoveElement(c.getID());
-
-        System.out.println(orepo.GetPage(0));
+        System.out.println(optionController.GetPage("0"));
     }
 }

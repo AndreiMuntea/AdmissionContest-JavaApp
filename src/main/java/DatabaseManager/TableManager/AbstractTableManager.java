@@ -96,16 +96,14 @@ public abstract class AbstractTableManager<ID, E extends HasID<ID>> {
         return new Query(query, queryArguments);
     }
 
-    public Query createGetElementQuery(ID ID)
-    {
+    public Query createGetElementQuery(ID ID) {
         Map<String, String> propertiesID = mapID(ID);
         ArrayList<String> queryArguments = new ArrayList<String>();
 
         String condition = "";
         String query = "";
 
-        for(String key : propertiesID.keySet())
-        {
+        for (String key : propertiesID.keySet()) {
             condition += "t." + key + " = ? AND ";
             queryArguments.add(propertiesID.get(key));
         }
@@ -115,15 +113,13 @@ public abstract class AbstractTableManager<ID, E extends HasID<ID>> {
         return new Query(query, queryArguments);
     }
 
-    public Query createGetAllQuery()
-    {
+    public Query createGetAllQuery() {
         ArrayList<String> queryArguments = new ArrayList<String>();
         String query = String.format("SELECT * FROM `%s`", tableName);
         return new Query(query, queryArguments);
     }
 
-    public Query createGetRangeQuery(int startRow, int rowCount)
-        {
+    public Query createGetRangeQuery(int startRow, int rowCount) {
         ArrayList<String> queryArguments = new ArrayList<String>();
         String query = String.format("SELECT * FROM `%s` LIMIT %d, %d", tableName, startRow, rowCount);
         return new Query(query, queryArguments);

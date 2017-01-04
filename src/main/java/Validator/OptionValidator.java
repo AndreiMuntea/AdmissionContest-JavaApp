@@ -8,6 +8,6 @@ import Validator.ValidatorExceptions.ValidatorException;
  */
 public class OptionValidator implements IValidator<Option> {
     public void Validate(Option object) throws ValidatorException {
-        
+
     }
 }
