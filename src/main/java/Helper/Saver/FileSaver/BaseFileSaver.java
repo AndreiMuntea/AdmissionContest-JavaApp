@@ -1,10 +1,13 @@
 package Helper.Saver.FileSaver;
 
+import Helper.FileExceptions.MyFileException;
 import Helper.Saver.AbstractSaver;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.util.List;
 
 /**
@@ -31,15 +34,16 @@ public abstract class BaseFileSaver<E> extends AbstractSaver<E> {
     }
 
     @Override
-    public void save(List<E> list, String fileName) {
-        try (BufferedWriter out = new BufferedWriter(new FileWriter(fileName))) {
+    public void save(List<E> list, String fileName) throws MyFileException{
+        File file = FileSystems.getDefault().getPath(fileName).toFile();
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(file))) {
             for (E obj : list) {
                 String line = getFormat(obj);
                 out.write(line + "\n");
             }
             out.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new MyFileException(e.getMessage());
         }
     }
 

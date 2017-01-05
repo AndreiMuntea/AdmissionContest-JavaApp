@@ -1,6 +1,7 @@
 package Controller;
 
 import Controller.ControllerExceptions.ControllerException;
+import Helper.Saver.ISaver;
 import Repository.IRepository;
 import Utils.Exceptions.MyException;
 import Utils.ObserverFramework.AbstractObservable;
@@ -52,9 +53,8 @@ public abstract class AbstractController<ID, T> extends AbstractObservable<T> {
         return repository.GetAll();
     }
 
-    public List<T> GetPage(int page) throws MyException {
-        if (page < 0) throw new ControllerException("Invalid page number!\n");
-        return repository.GetPage(page);
+    public List<T> GetPage(Integer pageSize, Integer pageNumber) throws MyException {
+        return repository.GetPage(pageSize, pageNumber);
     }
 
 
@@ -66,7 +66,28 @@ public abstract class AbstractController<ID, T> extends AbstractObservable<T> {
         return list.stream().sorted(comparator).collect(Collectors.toList());
     }
 
+    public void ExportAsCSV(String path, String fileName) throws MyException
+    {
+        if (fileName.length() == 0) throw new ControllerException("File name can't be empty!\n");
+        Export(getCSVFileSaver(),path +"/" + fileName + ".csv");
+    }
+
+    public void ExportAsTXT(String path, String fileName) throws MyException
+    {
+        if (fileName.length() == 0) throw new ControllerException("File name can't be empty!\n");
+        Export(getFileSaver(), path + "/" + fileName + ".txt");
+    }
+
     public abstract T CreateFromFormat(String... format) throws ControllerException;
 
     public abstract ID CreateIDFromFormat(String... format) throws ControllerException;
+
+    public abstract ISaver<T> getCSVFileSaver();
+
+    public abstract ISaver<T> getFileSaver();
+
+    protected void Export(ISaver<T> saver, String fileName) throws MyException
+    {
+        saver.save(repository.GetAll(),fileName);
+    }
 }

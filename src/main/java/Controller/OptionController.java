@@ -3,6 +3,9 @@ package Controller;
 import Controller.AbstractController;
 import Controller.ControllerExceptions.ControllerException;
 import Domain.Option;
+import Helper.Saver.FileSaver.CSVFile.OptionCSVFileSaver;
+import Helper.Saver.FileSaver.TextFile.OptionFileSaver;
+import Helper.Saver.ISaver;
 import Repository.IRepository;
 import Utils.Pair.Pair;
 import Validator.IValidator;
@@ -33,5 +36,15 @@ public class OptionController extends AbstractController<Pair<Integer, Integer>,
         }catch(NumberFormatException e){
             throw new ControllerException("ID should be a positive Integer: " + e.getMessage() + "\n");
         }
+    }
+
+    @Override
+    public ISaver<Option> getCSVFileSaver() {
+        return new OptionCSVFileSaver();
+    }
+
+    @Override
+    public ISaver<Option> getFileSaver() {
+        return new OptionFileSaver("|");
     }
 }

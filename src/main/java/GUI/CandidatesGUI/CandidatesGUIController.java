@@ -8,14 +8,20 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 
 /**
  * Created by andrei on 2017-01-04.
  */
-public class CandidatesGUIController implements IObserver<Candidate>{
+public class CandidatesGUIController implements IObserver<Candidate> {
 
     @FXML
     private TableView<Candidate> candidatesTable;
@@ -48,6 +54,9 @@ public class CandidatesGUIController implements IObserver<Candidate>{
     private TextField filterByGradeTextField;
 
     @FXML
+    private TextField pageNumberTextField;
+
+    @FXML
     private Button addButton;
 
     @FXML
@@ -60,24 +69,47 @@ public class CandidatesGUIController implements IObserver<Candidate>{
     private Button exportButton;
 
     @FXML
+    private Button previousPageButton;
+
+    @FXML
+    private Button nextPageButton;
+
+    @FXML
     private ComboBox<String> saveOptionComboBox;
 
 
     private CandidateController candidateController;
-    private int pageSize;
+    private Integer pageSize;
+    private Integer currentPage;
     private ObservableList<Candidate> model;
+
+    private CandidatesExportGUIController candidatesExportGUIController;
+    private FXMLLoader candidatesExportGUILoader;
+    private Stage candidatesExportStage;
+    private Parent candidatesExportScene;
 
     public CandidatesGUIController() {
 
     }
 
-    public void initComponents(CandidateController candidateController, int pageSize) throws MyException {
+    public void initComponents(CandidateController candidateController, Integer pageSize) throws Exception {
         this.candidateController = candidateController;
         this.pageSize = pageSize;
         this.candidateController.addObserver(this);
+        this.currentPage = 0;
 
         candidateName.setCellValueFactory(new PropertyValueFactory<>("name"));
         candidateGrade.setCellValueFactory(new PropertyValueFactory<>("grade"));
+
+        candidatesExportStage = new Stage();
+        candidatesExportStage.initModality(Modality.APPLICATION_MODAL);
+        candidatesExportStage.setResizable(false);
+        candidatesExportStage.setTitle("Export");
+        candidatesExportGUILoader = new FXMLLoader(getClass().getResource("/GUI/CandidatesGUI/exportCandidatesGUI.fxml"));
+        candidatesExportScene = candidatesExportGUILoader.load();
+        candidatesExportGUIController = candidatesExportGUILoader.getController();
+        candidatesExportStage.setScene(new Scene(candidatesExportScene, 600, 230));
+        candidatesExportGUIController.initialiseComponents(this.candidateController, candidatesExportStage);
 
         updateModel();
     }
@@ -102,7 +134,7 @@ public class CandidatesGUIController implements IObserver<Candidate>{
         }
     }
 
-    public void updateButtonHandler(){
+    public void updateButtonHandler() {
         try {
             candidateController.Update(getCandidateFields());
         } catch (MyException e) {
@@ -111,7 +143,7 @@ public class CandidatesGUIController implements IObserver<Candidate>{
         }
     }
 
-    public void deleteButtonHandler(){
+    public void deleteButtonHandler() {
         try {
             candidateController.Remove(getCandidateID());
         } catch (MyException e) {
@@ -120,9 +152,44 @@ public class CandidatesGUIController implements IObserver<Candidate>{
         }
     }
 
+    public void exportButtonHandler() {
+        DirectoryChooser d = new DirectoryChooser();
+        try {
+            String directoryPath = d.showDialog(candidatesExportStage).getPath();
+            String exportOption = saveOptionComboBox.getValue();
+            candidatesExportGUIController.setDetails(directoryPath, exportOption);
+            candidatesExportStage.show();
+        }catch (Exception ignored){}
+    }
+
+    public void pageChangedHandler() {
+        Integer newPage;
+        try {
+            newPage = Integer.parseInt(pageNumberTextField.getText());
+            if (newPage < 0) pageNumberTextField.setText(currentPage.toString());
+            else {
+                currentPage = newPage;
+                updateModel();
+            }
+        } catch (NumberFormatException e) {
+            pageNumberTextField.setText(currentPage.toString());
+        }
+    }
+
+    public void previousPageButtonHandler() {
+        if (currentPage == 0) return;
+        pageNumberTextField.setText((--currentPage).toString());
+        updateModel();
+    }
+
+    public void nextPageButtonHandler() {
+        pageNumberTextField.setText((++currentPage).toString());
+        updateModel();
+    }
+
     private void updateModel() {
         try {
-            model = new SimpleListProperty<>(FXCollections.observableArrayList(candidateController.GetPage(0)));
+            model = new SimpleListProperty<>(FXCollections.observableArrayList(candidateController.GetPage(pageSize, currentPage)));
             candidatesTable.setItems(model);
 
         } catch (MyException e) {
@@ -130,8 +197,7 @@ public class CandidatesGUIController implements IObserver<Candidate>{
         }
     }
 
-    private String[] getCandidateFields()
-    {
+    private String[] getCandidateFields() {
         String candidate[] = new String[5];
         candidate[0] = IDTextField.getText();
         candidate[1] = nameTextField.getText();
@@ -142,8 +208,7 @@ public class CandidatesGUIController implements IObserver<Candidate>{
         return candidate;
     }
 
-    private String[] getCandidateID()
-    {
+    private String[] getCandidateID() {
         String candidateID[] = new String[1];
         candidateID[0] = IDTextField.getText();
         return candidateID;

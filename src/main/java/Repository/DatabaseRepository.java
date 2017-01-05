@@ -16,12 +16,10 @@ public class DatabaseRepository<ID, E extends HasID<ID>> implements IRepository<
 
     private AbstractTableManager<ID, E> tableManager;
     private DatabaseManager databaseManager;
-    private Integer pageSize;
 
-    public DatabaseRepository(DatabaseManager databaseManager, AbstractTableManager<ID, E> tableManager, int pageSize) {
+    public DatabaseRepository(DatabaseManager databaseManager, AbstractTableManager<ID, E> tableManager) {
         this.tableManager = tableManager;
         this.databaseManager = databaseManager;
-        this.pageSize = pageSize;
     }
 
     public void AddElement(E element) throws RepositoryException {
@@ -61,7 +59,7 @@ public class DatabaseRepository<ID, E extends HasID<ID>> implements IRepository<
         return databaseManager.GetAll(tableManager);
     }
 
-    public List<E> GetPage(Integer pageNumber) throws RepositoryException {
+    public List<E> GetPage(Integer pageSize, Integer pageNumber) throws RepositoryException {
         return databaseManager.GetRange(tableManager, pageSize * pageNumber, pageSize);
     }
 }

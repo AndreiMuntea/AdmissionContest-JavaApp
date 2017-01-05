@@ -1,5 +1,7 @@
 package Helper.Saver;
 
+import Helper.FileExceptions.MyFileException;
+
 import java.util.List;
 
 /**
@@ -7,5 +9,5 @@ import java.util.List;
  */
 public abstract class AbstractSaver<E> implements ISaver<E> {
 
-    public abstract void save(List<E> list, String fileName);
+    public abstract void save(List<E> list, String fileName) throws MyFileException;
 }

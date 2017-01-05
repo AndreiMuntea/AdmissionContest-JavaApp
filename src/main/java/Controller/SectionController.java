@@ -2,6 +2,9 @@ package Controller;
 
 import Controller.ControllerExceptions.ControllerException;
 import Domain.Section;
+import Helper.Saver.FileSaver.CSVFile.SectionCSVFileSaver;
+import Helper.Saver.FileSaver.TextFile.SectionFileSaver;
+import Helper.Saver.ISaver;
 import Repository.IRepository;
 import Validator.IValidator;
 
@@ -41,5 +44,15 @@ public class SectionController extends AbstractController<Integer, Section> {
         } catch (NumberFormatException e) {
             throw new ControllerException("ID should be a positive integer " + e.getMessage() + "\n");
         }
+    }
+
+    @Override
+    public ISaver<Section> getCSVFileSaver() {
+        return new SectionCSVFileSaver();
+    }
+
+    @Override
+    public ISaver<Section> getFileSaver() {
+        return new SectionFileSaver("|");
     }
 }

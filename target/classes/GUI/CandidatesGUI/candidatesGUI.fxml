@@ -21,12 +21,12 @@
 <?import javafx.scene.image.Image?>
 <BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.CandidatesGUI.CandidatesGUIController">
    <left>
-      <VBox fx:id="leftPane" prefHeight="528.0" prefWidth="319.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="leftPane" prefHeight="538.0" prefWidth="319.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </BorderPane.margin>
          <children>
-            <TableView fx:id="candidatesTable" onMouseClicked="#loadCandidate" prefHeight="495.0" prefWidth="319.0">
+            <TableView fx:id="candidatesTable" onMouseClicked="#loadCandidate" prefHeight="465.0" prefWidth="319.0">
               <columns>
                 <TableColumn fx:id="candidateName" prefWidth="224.0" text="Name" />
                 <TableColumn fx:id="candidateGrade" prefWidth="93.0" text="Grade" />
@@ -35,6 +35,38 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
+            <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                   <fx:define>
+                       <Image fx:id="previousBtnIMG" url="@../images/left1.png" />
+                   </fx:define>
+                  <Button fx:id="previousPageButton" mnemonicParsing="false" onAction="#previousPageButtonHandler" prefHeight="30.0" prefWidth="80.0">
+                      <tooltip>
+                          <Tooltip text="Previous page" />
+                      </tooltip>
+                      <graphic>
+                          <ImageView fitHeight="23.0" fitWidth="29.0" image="$previousBtnIMG"/>
+                      </graphic>
+                  </Button>
+                  <Pane prefHeight="100.0" prefWidth="32.0" />
+                  <TextField fx:id="pageNumberTextField" alignment="CENTER" onAction="#pageChangedHandler" prefHeight="33.0" prefWidth="126.0" text="0" />
+                  <Pane prefHeight="100.0" prefWidth="31.0" />
+                   <fx:define>
+                       <Image fx:id="nextBtnImage" url="@../images/right.png" />
+                   </fx:define>
+                  <Button fx:id="nextPageButton" mnemonicParsing="false" onAction="#nextPageButtonHandler" prefHeight="30.0" prefWidth="80.0">
+                      <tooltip>
+                          <Tooltip text="Next page" />
+                      </tooltip>
+                      <graphic>
+                          <ImageView fitHeight="23.0" fitWidth="29.0" image="$nextBtnImage"/>
+                      </graphic>
+                  </Button>
+               </children>
+               <padding>
+                  <Insets top="25.0" />
+               </padding>
+            </HBox>
          </children>
       </VBox>
    </left>
@@ -48,14 +80,34 @@
                <children>
                   <Label prefHeight="21.0" prefWidth="463.0" text="Data input">
                       <font>
-                          <Font name ="Times New Roman" size="22" />
+                          <Font name="Sans Serif" size="22" />
                       </font>
                   </Label>
-                  <TextField fx:id="IDTextField" promptText="ID" />
-                  <TextField fx:id="nameTextField" promptText="Name" />
-                  <TextField fx:id="phoneNumberTextField" promptText="Phone number" />
-                  <TextField fx:id="gradeTextField" promptText="Grade" />
-                  <TextField fx:id="addressTextField" prefHeight="16.0" prefWidth="294.0" promptText="Address" />
+                  <TextField fx:id="IDTextField" promptText="ID" >
+                      <tooltip>
+                          <Tooltip text="ID" />
+                      </tooltip>
+                  </TextField>
+                  <TextField fx:id="nameTextField" promptText="Name" >
+                      <tooltip>
+                          <Tooltip text="name" />
+                      </tooltip>
+                  </TextField>
+                  <TextField fx:id="phoneNumberTextField" promptText="Phone number" >
+                      <tooltip>
+                          <Tooltip text="phoneNumber" />
+                      </tooltip>
+                  </TextField>
+                  <TextField fx:id="gradeTextField" promptText="Grade" >
+                      <tooltip>
+                          <Tooltip text="grade" />
+                      </tooltip>
+                  </TextField>
+                  <TextField fx:id="addressTextField" prefHeight="16.0" prefWidth="294.0" promptText="Address" >
+                      <tooltip>
+                          <Tooltip text="address" />
+                      </tooltip>
+                  </TextField>
                </children>
                <VBox.margin>
                   <Insets right="10.0" />
@@ -68,36 +120,36 @@
                   <Separator orientation="VERTICAL" prefHeight="200.0" />
                   <Pane prefHeight="30.0" prefWidth="286.0" />
                    <fx:define>
-                       <Image fx:id="addBtnImage" url="@images/add1.png" />
+                       <Image fx:id="addBtnImage" url="@../images/add1.png" />
                    </fx:define>
-                  <Button fx:id="addButton" onMouseClicked="#addButtonHandler" mnemonicParsing="false" prefHeight="30.0" prefWidth="36.0">
+                  <Button fx:id="addButton" mnemonicParsing="false" onMouseClicked="#addButtonHandler" prefHeight="30.0" prefWidth="36.0">
                       <tooltip>
                           <Tooltip text="Add a new candidate" />
                       </tooltip>
                       <graphic>
-                          <ImageView image = "$addBtnImage"/>
+                          <ImageView image="$addBtnImage"/>
                       </graphic>
                   </Button>
                    <fx:define>
-                       <Image fx:id="updateBtnImage"  url="@images/update1.png" />
+                       <Image fx:id="updateBtnImage" url="@../images/update1.png" />
                    </fx:define>
-                  <Button fx:id="updateButton" onMouseClicked="#updateButtonHandler" mnemonicParsing="false" prefHeight="30.0" prefWidth="39.0">
+                  <Button fx:id="updateButton" mnemonicParsing="false" onMouseClicked="#updateButtonHandler" prefHeight="30.0" prefWidth="39.0">
                       <tooltip>
                           <Tooltip text="Update an existing candidate" />
                       </tooltip>
                       <graphic>
-                          <ImageView image = "$updateBtnImage"/>
+                          <ImageView image="$updateBtnImage"/>
                       </graphic>
                   </Button>
                    <fx:define>
-                       <Image fx:id="deleteBtnImage" url="@images/delete1.png" />
+                       <Image fx:id="deleteBtnImage" url="@../images/delete1.png" />
                    </fx:define>
-                  <Button fx:id="deleteButton" onMouseClicked="#deleteButtonHandler" mnemonicParsing="false" prefHeight="30.0" prefWidth="45.0">
+                  <Button fx:id="deleteButton" mnemonicParsing="false" onMouseClicked="#deleteButtonHandler" prefHeight="30.0" prefWidth="45.0">
                       <tooltip>
                           <Tooltip text="Delete an existing candidate" />
                       </tooltip>
                       <graphic>
-                          <ImageView image = "$deleteBtnImage"/>
+                          <ImageView image="$deleteBtnImage" />
                       </graphic>
                   </Button>
                </children>
@@ -109,7 +161,7 @@
                <children>
                   <Label prefHeight="21.0" prefWidth="472.0" text="Filter and export">
                       <font>
-                          <Font name ="Times New Roman" size="22" />
+                          <Font name="Sans Serif" size="22" />
                       </font>
                   </Label>
                    <Separator prefHeight="0.0" prefWidth="449.0" />
@@ -141,14 +193,14 @@
                        </value>
                    </ComboBox>
                    <fx:define>
-                   <Image fx:id="exportBtnImage" url="@images/export1.png" />
+                   <Image fx:id="exportBtnImage" url="@../images/export1.png" />
                     </fx:define>
-                  <Button fx:id="exportButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="36.0">
+                  <Button fx:id="exportButton" onMouseClicked="#exportButtonHandler" mnemonicParsing="false" prefHeight="30.0" prefWidth="36.0">
                      <tooltip>
                         <Tooltip text="Export all candidates" />
                      </tooltip>
                      <graphic>
-                        <ImageView image = "$exportBtnImage"/>
+                         <ImageView image="$exportBtnImage"/>
                      </graphic>
                   </Button>
                </children>

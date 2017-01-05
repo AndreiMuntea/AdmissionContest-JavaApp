@@ -21,5 +21,5 @@ public interface IRepository<ID, E>
 
     List<E> GetAll() throws RepositoryException;
 
-    List<E> GetPage(Integer pageNumber) throws RepositoryException;
+    List<E> GetPage(Integer pageSize, Integer pageNumber) throws RepositoryException;
 }

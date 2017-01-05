@@ -2,8 +2,15 @@ package Controller;
 
 import Controller.ControllerExceptions.ControllerException;
 import Domain.Candidate;
+import Helper.Saver.FileSaver.CSVFile.CandidateCSVFileSaver;
+import Helper.Saver.FileSaver.TextFile.CandidateFileSaver;
+import Helper.Saver.ISaver;
 import Repository.IRepository;
+import Utils.Exceptions.MyException;
 import Validator.IValidator;
+
+import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Created by andrei on 2017-01-04.
@@ -48,4 +55,29 @@ public class CandidateController extends AbstractController<Integer, Candidate> 
         }
     }
 
+    @Override
+    public ISaver<Candidate> getCSVFileSaver() {
+        return new CandidateCSVFileSaver();
+    }
+
+    @Override
+    public ISaver<Candidate> getFileSaver() {
+        return new CandidateFileSaver("|");
+    }
+
+    public List<Candidate> filterByPrefix(String prefix) throws MyException {
+        Predicate<Candidate> predicate = c-> c.getName().startsWith(prefix);
+        return FilterList(GetAll(),predicate);
+    }
+
+    public List<Candidate> filterByGrade(String grade) throws MyException{
+        Double compareGrade;
+        try{
+            compareGrade = Double.parseDouble(grade);
+            Predicate<Candidate> predicate = c->c.getGrade() < compareGrade;
+            return FilterList(GetAll(), predicate);
+        }catch(NumberFormatException e){
+            throw new ControllerException("Grade should be a valid number!\n");
+        }
+    }
 }

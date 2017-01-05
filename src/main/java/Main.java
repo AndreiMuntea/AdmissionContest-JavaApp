@@ -41,18 +41,18 @@ public class Main extends Application {
         DatabaseManager dbManager = DatabaseManager.newInstance(JDBC_DRIVER, DB_URL, USER, PASS);
 
         AbstractTableManager<Integer, Candidate> candidateTableManager = new CandidateTableManager("candidates");
-        IRepository<Integer, Candidate> candidateRepository = new DatabaseRepository<Integer, Candidate>(dbManager, candidateTableManager, 5);
+        IRepository<Integer, Candidate> candidateRepository = new DatabaseRepository<Integer, Candidate>(dbManager, candidateTableManager);
         IValidator<Candidate> candidateValidator = new CandidateValidator();
         CandidateController candidateController = new CandidateController(candidateRepository, candidateValidator);
 
         AbstractTableManager<Integer, Section> sectionTableManager = new SectionTableManager("sections");
-        IRepository<Integer, Section> sectionRepository = new DatabaseRepository<Integer, Section>(dbManager, sectionTableManager, 5);
+        IRepository<Integer, Section> sectionRepository = new DatabaseRepository<Integer, Section>(dbManager, sectionTableManager);
         IValidator<Section> sectionValidator = new SectionValidator();
         SectionController sectionController = new SectionController(sectionRepository, sectionValidator);
 
 
         AbstractTableManager<Pair<Integer, Integer>, Option> optionTableManager = new OptionTableManager("options");
-        IRepository<Pair<Integer, Integer>, Option> optionRepository = new DatabaseRepository<Pair<Integer, Integer>, Option>(dbManager, optionTableManager, 5);
+        IRepository<Pair<Integer, Integer>, Option> optionRepository = new DatabaseRepository<Pair<Integer, Integer>, Option>(dbManager, optionTableManager);
         IValidator<Option> optionValidator = new OptionValidator();
         OptionController optionController = new OptionController(optionRepository, optionValidator);
 
