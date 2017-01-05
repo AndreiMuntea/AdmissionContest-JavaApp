@@ -191,7 +191,6 @@ public class CandidatesGUIController implements IObserver<Candidate> {
         try {
             model = new SimpleListProperty<>(FXCollections.observableArrayList(candidateController.GetPage(pageSize, currentPage)));
             candidatesTable.setItems(model);
-
         } catch (MyException e) {
             e.printStackTrace();
         }

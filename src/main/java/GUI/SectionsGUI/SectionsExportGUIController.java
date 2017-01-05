@@ -1,6 +1,6 @@
-package GUI.CandidatesGUI;
+package GUI.SectionsGUI;
 
-import Controller.CandidateController;
+import Controller.SectionController;
 import Utils.Exceptions.MyException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 /**
  * Created by andrei on 2017-01-05.
  */
-public class CandidatesExportGUIController {
+public class SectionsExportGUIController {
 
     @FXML
     private TextField directoryPathTextField;
@@ -29,16 +29,16 @@ public class CandidatesExportGUIController {
     private Button cancelButton;
 
 
-    private CandidateController candidateController;
+    private SectionController sectionController;
     private Stage mainStage;
 
 
-    public CandidatesExportGUIController() {
+    public SectionsExportGUIController() {
 
     }
 
-    public void initialiseComponents(CandidateController candidateController, Stage mainStage) {
-        this.candidateController = candidateController;
+    public void initialiseComponents(SectionController sectionController, Stage mainStage) {
+        this.sectionController = sectionController;
         this.mainStage = mainStage;
     }
 
@@ -48,12 +48,14 @@ public class CandidatesExportGUIController {
     }
 
     public void proceedButtonHandler() {
-        String option = exportTextField.getText();
         String path = directoryPathTextField.getText();
         String fileName = fileNameTextField.getText();
+        String option = exportTextField.getText();
         try {
-            if (option.equals("CSV")) candidateController.ExportAsCSV(path, fileName);
-            else if (option.equals("TXT")) candidateController.ExportAsTXT(path, fileName);
+            if (option.equals("CSV")) sectionController.ExportAsCSV(path, fileName);
+            else {
+                if (option.equals("TXT")) sectionController.ExportAsTXT(path, fileName);
+            }
         } catch (MyException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.showAndWait();
@@ -72,5 +74,4 @@ public class CandidatesExportGUIController {
         exportTextField.clear();
         this.mainStage.close();
     }
-
 }

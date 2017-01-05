@@ -4,6 +4,7 @@ import Controller.CandidateController;
 import Controller.OptionController;
 import Controller.SectionController;
 import GUI.CandidatesGUI.CandidatesGUIController;
+import GUI.SectionsGUI.SectionsGUIController;
 import Utils.Exceptions.MyException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,6 +40,7 @@ public class GUIController {
     private FXMLLoader optionsLoader;
 
     private CandidatesGUIController candidatesGUIController;
+    private SectionsGUIController sectionsGUIController;
 
 
     public GUIController()
@@ -55,6 +57,11 @@ public class GUIController {
         candidateScene = candidatesLoader.load();
         candidatesGUIController = candidatesLoader.getController();
         candidatesGUIController.initComponents(candidateController, pageSize);
+
+        sectionsLoader = new FXMLLoader(getClass().getResource("/GUI/SectionsGUI/sectionsGUI.fxml"));
+        sectionScene = sectionsLoader.load();
+        sectionsGUIController = sectionsLoader.getController();
+        sectionsGUIController.initComponents(sectionController,pageSize);
 
         candidatesButton.setDisable(true);
         sectionsButton.setDisable(false);
@@ -82,7 +89,7 @@ public class GUIController {
         optionsButton.setDisable(false);
 
         mainPane.getChildren().clear();
-        //mainPane.getChildren().add(sectionScene);
+        mainPane.getChildren().add(sectionScene);
     }
 
     public void handleOptionsButton()
