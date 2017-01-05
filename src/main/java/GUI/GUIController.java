@@ -1,6 +1,10 @@
 package GUI;
 
+import Controller.CandidateController;
+import Controller.OptionController;
+import Controller.SectionController;
 import GUI.CandidatesGUI.CandidatesGUIController;
+import Utils.Exceptions.MyException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -42,11 +46,15 @@ public class GUIController {
 
     }
 
-    public void initialiseComponents() throws IOException
+    public void initialiseComponents(CandidateController candidateController,
+                                     SectionController sectionController,
+                                     OptionController optionController,
+                                     int pageSize) throws Exception
     {
         candidatesLoader = new FXMLLoader(getClass().getResource("/GUI/CandidatesGUI/candidatesGUI.fxml"));
         candidateScene = candidatesLoader.load();
         candidatesGUIController = candidatesLoader.getController();
+        candidatesGUIController.initComponents(candidateController, pageSize);
 
         candidatesButton.setDisable(true);
         sectionsButton.setDisable(false);

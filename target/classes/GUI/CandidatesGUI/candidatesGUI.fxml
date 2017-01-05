@@ -26,7 +26,7 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </BorderPane.margin>
          <children>
-            <TableView fx:id="candidatesTable" prefHeight="495.0" prefWidth="319.0">
+            <TableView fx:id="candidatesTable" onMouseClicked="#loadCandidate" prefHeight="495.0" prefWidth="319.0">
               <columns>
                 <TableColumn fx:id="candidateName" prefWidth="224.0" text="Name" />
                 <TableColumn fx:id="candidateGrade" prefWidth="93.0" text="Grade" />
@@ -70,7 +70,7 @@
                    <fx:define>
                        <Image fx:id="addBtnImage" url="@images/add1.png" />
                    </fx:define>
-                  <Button fx:id="AddButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="36.0">
+                  <Button fx:id="addButton" onMouseClicked="#addButtonHandler" mnemonicParsing="false" prefHeight="30.0" prefWidth="36.0">
                       <tooltip>
                           <Tooltip text="Add a new candidate" />
                       </tooltip>
@@ -79,9 +79,9 @@
                       </graphic>
                   </Button>
                    <fx:define>
-                       <Image fx:id="updateBtnImage" url="@images/update1.png" />
+                       <Image fx:id="updateBtnImage"  url="@images/update1.png" />
                    </fx:define>
-                  <Button fx:id="UpdateButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="39.0">
+                  <Button fx:id="updateButton" onMouseClicked="#updateButtonHandler" mnemonicParsing="false" prefHeight="30.0" prefWidth="39.0">
                       <tooltip>
                           <Tooltip text="Update an existing candidate" />
                       </tooltip>
@@ -92,7 +92,7 @@
                    <fx:define>
                        <Image fx:id="deleteBtnImage" url="@images/delete1.png" />
                    </fx:define>
-                  <Button fx:id="DeleteButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="45.0">
+                  <Button fx:id="deleteButton" onMouseClicked="#deleteButtonHandler" mnemonicParsing="false" prefHeight="30.0" prefWidth="45.0">
                       <tooltip>
                           <Tooltip text="Delete an existing candidate" />
                       </tooltip>
@@ -102,7 +102,7 @@
                   </Button>
                </children>
                <VBox.margin>
-                  <Insets bottom="0.0" right="10.0" top="10.0" />
+                  <Insets right="10.0" top="10.0" />
                </VBox.margin>
             </HBox>
             <VBox prefHeight="70.0" prefWidth="429.0" spacing="10.0">
@@ -112,7 +112,7 @@
                           <Font name ="Times New Roman" size="22" />
                       </font>
                   </Label>
-                   <Separator prefHeight="0.0" prefWidth="449.0"></Separator>
+                   <Separator prefHeight="0.0" prefWidth="449.0" />
                   <TextField fx:id="filterByNameTextField" promptText="Filter by name" />
                   <TextField fx:id="filterByGradeTextField" promptText="Filter by grade" />
                </children>

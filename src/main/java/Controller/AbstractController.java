@@ -48,16 +48,9 @@ public abstract class AbstractController<ID, T> {
         return repository.GetAll();
     }
 
-    public List<T> GetPage(String page) throws MyException {
-        Integer pageNumber;
-        try {
-            pageNumber = Integer.parseInt(page);
-            if (pageNumber < 0) throw new ControllerException("Invalid page number!\n");
-        } catch (NumberFormatException e) {
-            throw new ControllerException(e.getMessage());
-        }
-
-        return repository.GetPage(pageNumber);
+    public List<T> GetPage(int page) throws MyException {
+        if (page < 0) throw new ControllerException("Invalid page number!\n");
+        return repository.GetPage(page);
     }
 
 

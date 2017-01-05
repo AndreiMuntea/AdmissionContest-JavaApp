@@ -20,20 +20,18 @@ public class GUI {
     private FXMLLoader GUILoader;
     private GUIController GUIController;
 
-    private CandidateController candidateController;
-    private SectionController sectionController;
-    private OptionController optionController;
 
-    public GUI(Stage mainStage, CandidateController candidateController, SectionController sectionController, OptionController optionController) throws IOException {
+    public GUI(Stage mainStage,
+               CandidateController candidateController,
+               SectionController sectionController,
+               OptionController optionController,
+               int pageSize) throws Exception {
         this.mainStage = mainStage;
-        this.candidateController = candidateController;
-        this.sectionController = sectionController;
-        this.optionController = optionController;
 
         GUILoader = new FXMLLoader(getClass().getResource("/GUI/gui.fxml"));
         mainScene = GUILoader.load();
         GUIController = GUILoader.getController();
-        GUIController.initialiseComponents();
+        GUIController.initialiseComponents(candidateController, sectionController, optionController, pageSize);
     }
 
     public void start(){
