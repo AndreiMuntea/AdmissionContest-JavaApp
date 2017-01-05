@@ -3,6 +3,7 @@ package Controller;
 import Controller.ControllerExceptions.ControllerException;
 import Domain.Section;
 import Helper.Saver.FileSaver.CSVFile.SectionCSVFileSaver;
+import Helper.Saver.FileSaver.HTMLFile.SectionHTMLSaver;
 import Helper.Saver.FileSaver.TextFile.SectionFileSaver;
 import Helper.Saver.ISaver;
 import Repository.IRepository;
@@ -54,5 +55,10 @@ public class SectionController extends AbstractController<Integer, Section> {
     @Override
     public ISaver<Section> getFileSaver() {
         return new SectionFileSaver("|");
+    }
+
+    @Override
+    public ISaver<Section> getHTMLSaver() {
+        return new SectionHTMLSaver();
     }
 }

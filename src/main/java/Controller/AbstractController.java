@@ -78,6 +78,12 @@ public abstract class AbstractController<ID, T> extends AbstractObservable<T> {
         Export(getFileSaver(), path + "/" + fileName + ".txt");
     }
 
+    public void ExportAsHTML(String path, String fileName) throws MyException
+    {
+        if (fileName.length() == 0) throw new ControllerException("File name can't be empty!\n");
+        Export(getHTMLSaver(), path + "/" + fileName + ".html");
+    }
+
     public abstract T CreateFromFormat(String... format) throws ControllerException;
 
     public abstract ID CreateIDFromFormat(String... format) throws ControllerException;
@@ -85,6 +91,8 @@ public abstract class AbstractController<ID, T> extends AbstractObservable<T> {
     public abstract ISaver<T> getCSVFileSaver();
 
     public abstract ISaver<T> getFileSaver();
+
+    public abstract ISaver<T> getHTMLSaver();
 
     protected void Export(ISaver<T> saver, String fileName) throws MyException
     {

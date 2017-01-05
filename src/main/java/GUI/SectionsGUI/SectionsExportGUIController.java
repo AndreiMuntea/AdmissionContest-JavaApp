@@ -53,9 +53,8 @@ public class SectionsExportGUIController {
         String option = exportTextField.getText();
         try {
             if (option.equals("CSV")) sectionController.ExportAsCSV(path, fileName);
-            else {
-                if (option.equals("TXT")) sectionController.ExportAsTXT(path, fileName);
-            }
+            else if (option.equals("TXT")) sectionController.ExportAsTXT(path, fileName);
+            else if (option.equals("HTML")) sectionController.ExportAsHTML(path, fileName);
         } catch (MyException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.showAndWait();

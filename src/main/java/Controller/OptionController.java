@@ -4,6 +4,7 @@ import Controller.AbstractController;
 import Controller.ControllerExceptions.ControllerException;
 import Domain.Option;
 import Helper.Saver.FileSaver.CSVFile.OptionCSVFileSaver;
+import Helper.Saver.FileSaver.HTMLFile.OptionHTMLSaver;
 import Helper.Saver.FileSaver.TextFile.OptionFileSaver;
 import Helper.Saver.ISaver;
 import Repository.IRepository;
@@ -46,5 +47,10 @@ public class OptionController extends AbstractController<Pair<Integer, Integer>,
     @Override
     public ISaver<Option> getFileSaver() {
         return new OptionFileSaver("|");
+    }
+
+    @Override
+    public ISaver<Option> getHTMLSaver() {
+        return new OptionHTMLSaver();
     }
 }

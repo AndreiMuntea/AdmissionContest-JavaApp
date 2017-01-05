@@ -3,6 +3,7 @@ package Controller;
 import Controller.ControllerExceptions.ControllerException;
 import Domain.Candidate;
 import Helper.Saver.FileSaver.CSVFile.CandidateCSVFileSaver;
+import Helper.Saver.FileSaver.HTMLFile.CandidateHTMLSaver;
 import Helper.Saver.FileSaver.TextFile.CandidateFileSaver;
 import Helper.Saver.ISaver;
 import Repository.IRepository;
@@ -63,6 +64,11 @@ public class CandidateController extends AbstractController<Integer, Candidate> 
     @Override
     public ISaver<Candidate> getFileSaver() {
         return new CandidateFileSaver("|");
+    }
+
+    @Override
+    public ISaver<Candidate> getHTMLSaver() {
+        return new CandidateHTMLSaver();
     }
 
     public List<Candidate> filterByPrefix(String prefix) throws MyException {
