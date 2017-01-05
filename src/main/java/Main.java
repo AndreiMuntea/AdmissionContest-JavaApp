@@ -1,4 +1,3 @@
-
 import Controller.CandidateController;
 import Controller.OptionController;
 import Controller.SectionController;
@@ -10,6 +9,7 @@ import DatabaseManager.TableManager.SectionTableManager;
 import Domain.Candidate;
 import Domain.Option;
 import Domain.Section;
+import GUI.GUI;
 import Repository.DatabaseRepository;
 import Repository.IRepository;
 import Utils.Pair.Pair;
@@ -17,11 +17,13 @@ import Validator.CandidateValidator;
 import Validator.IValidator;
 import Validator.OptionValidator;
 import Validator.SectionValidator;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
 /**
  * Created by andrei on 2017-01-03.
  */
-public class Main {
+public class Main extends Application {
 
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost/app";
@@ -30,37 +32,31 @@ public class Main {
     static final String USER = "root";
     static final String PASS = "test";
 
-    public static void main(String[] args) throws  Exception {
+    public static void main(String[] args) throws Exception {
+        launch(args);
+    }
 
+    @Override
+    public void start(Stage primaryStage) throws Exception {
         DatabaseManager dbManager = DatabaseManager.newInstance(JDBC_DRIVER, DB_URL, USER, PASS);
 
         AbstractTableManager<Integer, Candidate> candidateTableManager = new CandidateTableManager("candidates");
-        IRepository<Integer, Candidate> crepo = new DatabaseRepository<Integer, Candidate>(dbManager, candidateTableManager, 5);
-        IValidator<Candidate> cvalidator = new CandidateValidator();
-        CandidateController cctr = new CandidateController(crepo, cvalidator);
+        IRepository<Integer, Candidate> candidateRepository = new DatabaseRepository<Integer, Candidate>(dbManager, candidateTableManager, 5);
+        IValidator<Candidate> candidateValidator = new CandidateValidator();
+        CandidateController candidateController = new CandidateController(candidateRepository, candidateValidator);
 
         AbstractTableManager<Integer, Section> sectionTableManager = new SectionTableManager("sections");
-        IRepository<Integer, Section> srepo = new DatabaseRepository<Integer, Section>(dbManager, sectionTableManager, 5);
-        IValidator<Section> svalidator = new SectionValidator();
-        SectionController sctr = new SectionController(srepo, svalidator);
+        IRepository<Integer, Section> sectionRepository = new DatabaseRepository<Integer, Section>(dbManager, sectionTableManager, 5);
+        IValidator<Section> sectionValidator = new SectionValidator();
+        SectionController sectionController = new SectionController(sectionRepository, sectionValidator);
 
 
         AbstractTableManager<Pair<Integer, Integer>, Option> optionTableManager = new OptionTableManager("options");
-        IRepository<Pair<Integer, Integer>, Option> orepo = new DatabaseRepository<Pair<Integer, Integer>, Option>(dbManager, optionTableManager, 5);
-        IValidator<Option> ovalidator = new OptionValidator();
-        OptionController optionController = new OptionController(orepo, ovalidator);
+        IRepository<Pair<Integer, Integer>, Option> optionRepository = new DatabaseRepository<Pair<Integer, Integer>, Option>(dbManager, optionTableManager, 5);
+        IValidator<Option> optionValidator = new OptionValidator();
+        OptionController optionController = new OptionController(optionRepository, optionValidator);
 
-        Candidate c  = new Candidate(1,"Ionica","Calea Dunarii",10.0,"0727126338");
-        Candidate uc = new Candidate(2,"Marcel","Calea Turzii",5.0,"0726761562");
-
-        Section s1 = new Section(1, "section 1", 50);
-        Section s2 = new Section(2, "section 2", 100);
-        Section s3 = new Section(3, "section 3", 150);
-
-        Option o11 = new Option(1,1);
-        Option o12 = new Option(1, 2);
-        Option o21 = new Option(2, 1);
-
-        System.out.println(optionController.GetPage("0"));
+        GUI gui = new GUI(primaryStage, candidateController, sectionController, optionController);
+        gui.start();
     }
 }
