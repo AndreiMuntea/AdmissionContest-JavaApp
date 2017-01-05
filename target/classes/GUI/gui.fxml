@@ -12,7 +12,7 @@
    <top>
       <HBox fx:id="topPane" prefHeight="25.0" prefWidth="800.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="candidatesButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#handleCandidatesButton" prefHeight="31.0" prefWidth="700.0" text="Candidates">
+            <Button fx:id="candidatesButton" contentDisplay="TOP" focusTraversable="false" mnemonicParsing="false" onAction="#handleCandidatesButton" prefHeight="31.0" prefWidth="700.0" text="Candidates">
                <effect>
                   <InnerShadow blurType="GAUSSIAN" color="#00000091" height="13.42" radius="2.855" width="0.0" />
                </effect>
@@ -22,14 +22,14 @@
                <HBox.margin>
                   <Insets />
                </HBox.margin></Button>
-            <Button fx:id="sectionsButton" mnemonicParsing="false" onAction="#handleSectionsButton" prefHeight="31.0" prefWidth="747.0" text="Sections">
+            <Button fx:id="sectionsButton" focusTraversable="false" mnemonicParsing="false" onAction="#handleSectionsButton" prefHeight="31.0" prefWidth="747.0" text="Sections">
                <effect>
                   <InnerShadow color="#00000092" height="13.42" radius="2.855" width="0.0" />
                </effect>
                <cursor>
                   <Cursor fx:constant="OPEN_HAND" />
                </cursor></Button>
-            <Button fx:id="optionsButton" mnemonicParsing="false" onAction="#handleOptionsButton" prefHeight="31.0" prefWidth="735.0" text="Options">
+            <Button fx:id="optionsButton" focusTraversable="false" mnemonicParsing="false" onAction="#handleOptionsButton" prefHeight="31.0" prefWidth="735.0" text="Options">
                <effect>
                   <InnerShadow color="#00000092" height="13.42" radius="2.855" width="0.0" />
                </effect>
