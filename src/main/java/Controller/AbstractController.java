@@ -3,6 +3,7 @@ package Controller;
 import Controller.ControllerExceptions.ControllerException;
 import Repository.IRepository;
 import Utils.Exceptions.MyException;
+import Utils.ObserverFramework.AbstractObservable;
 import Validator.IValidator;
 
 import java.util.Comparator;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 /**
  * Created by andrei on 2017-01-04.
  */
-public abstract class AbstractController<ID, T> {
+public abstract class AbstractController<ID, T> extends AbstractObservable<T> {
     private IRepository<ID, T> repository;
     private IValidator<T> validator;
 
@@ -26,17 +27,20 @@ public abstract class AbstractController<ID, T> {
         T entity = CreateFromFormat(format);
         validator.Validate(entity);
         repository.AddElement(entity);
+        notifyObservers();
     }
 
     public void Remove(String... format) throws MyException {
         ID entityID = CreateIDFromFormat(format);
         repository.RemoveElement(entityID);
+        notifyObservers();
     }
 
     public void Update(String... format) throws MyException {
         T entity = CreateFromFormat(format);
         validator.Validate(entity);
         repository.UpdateElement(entity);
+        notifyObservers();
     }
 
     public T GetElement(String... format) throws MyException {

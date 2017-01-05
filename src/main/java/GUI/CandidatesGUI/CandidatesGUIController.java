@@ -3,6 +3,7 @@ package GUI.CandidatesGUI;
 import Controller.CandidateController;
 import Domain.Candidate;
 import Utils.Exceptions.MyException;
+import Utils.ObserverFramework.IObserver;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,7 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 /**
  * Created by andrei on 2017-01-04.
  */
-public class CandidatesGUIController {
+public class CandidatesGUIController implements IObserver<Candidate>{
 
     @FXML
     private TableView<Candidate> candidatesTable;
@@ -73,6 +74,7 @@ public class CandidatesGUIController {
     public void initComponents(CandidateController candidateController, int pageSize) throws MyException {
         this.candidateController = candidateController;
         this.pageSize = pageSize;
+        this.candidateController.addObserver(this);
 
         candidateName.setCellValueFactory(new PropertyValueFactory<>("name"));
         candidateGrade.setCellValueFactory(new PropertyValueFactory<>("grade"));
@@ -94,7 +96,6 @@ public class CandidatesGUIController {
     public void addButtonHandler() {
         try {
             candidateController.Add(getCandidateFields());
-            updateModel();
         } catch (MyException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.showAndWait();
@@ -104,7 +105,6 @@ public class CandidatesGUIController {
     public void updateButtonHandler(){
         try {
             candidateController.Update(getCandidateFields());
-            updateModel();
         } catch (MyException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.showAndWait();
@@ -114,16 +114,20 @@ public class CandidatesGUIController {
     public void deleteButtonHandler(){
         try {
             candidateController.Remove(getCandidateID());
-            updateModel();
         } catch (MyException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.showAndWait();
         }
     }
 
-    private void updateModel() throws MyException {
-        model = new SimpleListProperty<>(FXCollections.observableArrayList(candidateController.GetPage(0)));
-        candidatesTable.setItems(model);
+    private void updateModel() {
+        try {
+            model = new SimpleListProperty<>(FXCollections.observableArrayList(candidateController.GetPage(0)));
+            candidatesTable.setItems(model);
+
+        } catch (MyException e) {
+            e.printStackTrace();
+        }
     }
 
     private String[] getCandidateFields()
@@ -145,4 +149,8 @@ public class CandidatesGUIController {
         return candidateID;
     }
 
+    @Override
+    public void update() {
+        updateModel();
+    }
 }
