@@ -7,7 +7,9 @@ import Utils.Exceptions.MyException;
 import Utils.ObserverFramework.AbstractObservable;
 import Validator.IValidator;
 
+import java.lang.reflect.Method;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -18,10 +20,13 @@ import java.util.stream.Collectors;
 public abstract class AbstractController<ID, T> extends AbstractObservable<T> {
     private IRepository<ID, T> repository;
     private IValidator<T> validator;
+    protected HashMap<String, ISaver<T>> exporters;
 
     public AbstractController(IRepository<ID, T> repository, IValidator<T> validator) {
         this.repository = repository;
         this.validator = validator;
+        this.exporters = new HashMap<>();
+        loadExporters();
     }
 
     public void Add(String... format) throws MyException {
@@ -66,35 +71,21 @@ public abstract class AbstractController<ID, T> extends AbstractObservable<T> {
         return list.stream().sorted(comparator).collect(Collectors.toList());
     }
 
-    public void ExportAsCSV(String path, String fileName) throws MyException
+    public void Export(String path, String fileName, String option) throws MyException
     {
         if (fileName.length() == 0) throw new ControllerException("File name can't be empty!\n");
-        Export(getCSVFileSaver(),path +"/" + fileName + ".csv");
+        if(!exporters.containsKey(option)) throw new ControllerException("Undefined export method!\n");
+        export(exporters.get(option), path + "/" + fileName + "." + option.toLowerCase());
     }
 
-    public void ExportAsTXT(String path, String fileName) throws MyException
-    {
-        if (fileName.length() == 0) throw new ControllerException("File name can't be empty!\n");
-        Export(getFileSaver(), path + "/" + fileName + ".txt");
-    }
-
-    public void ExportAsHTML(String path, String fileName) throws MyException
-    {
-        if (fileName.length() == 0) throw new ControllerException("File name can't be empty!\n");
-        Export(getHTMLSaver(), path + "/" + fileName + ".html");
-    }
 
     public abstract T CreateFromFormat(String... format) throws ControllerException;
 
     public abstract ID CreateIDFromFormat(String... format) throws ControllerException;
 
-    public abstract ISaver<T> getCSVFileSaver();
+    protected abstract void loadExporters();
 
-    public abstract ISaver<T> getFileSaver();
-
-    public abstract ISaver<T> getHTMLSaver();
-
-    protected void Export(ISaver<T> saver, String fileName) throws MyException
+    protected void export(ISaver<T> saver, String fileName) throws MyException
     {
         saver.save(repository.GetAll(),fileName);
     }

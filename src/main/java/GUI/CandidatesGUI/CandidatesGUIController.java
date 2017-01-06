@@ -104,7 +104,7 @@ public class CandidatesGUIController implements IObserver<Candidate> {
         candidatesExportStage = new Stage();
         candidatesExportStage.initModality(Modality.APPLICATION_MODAL);
         candidatesExportStage.setResizable(false);
-        candidatesExportStage.setTitle("Export");
+        candidatesExportStage.setTitle("export");
         candidatesExportGUILoader = new FXMLLoader(getClass().getResource("/GUI/CandidatesGUI/exportCandidatesGUI.fxml"));
         candidatesExportScene = candidatesExportGUILoader.load();
         candidatesExportGUIController = candidatesExportGUILoader.getController();

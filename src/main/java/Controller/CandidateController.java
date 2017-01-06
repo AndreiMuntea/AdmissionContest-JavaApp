@@ -6,6 +6,7 @@ import Helper.Saver.FileSaver.CSVFile.CandidateCSVFileSaver;
 import Helper.Saver.FileSaver.HTMLFile.CandidateHTMLSaver;
 import Helper.Saver.FileSaver.TextFile.CandidateFileSaver;
 import Helper.Saver.ISaver;
+import Helper.Saver.PDFFile.CandidatePDFSaver;
 import Repository.IRepository;
 import Utils.Exceptions.MyException;
 import Validator.IValidator;
@@ -57,18 +58,11 @@ public class CandidateController extends AbstractController<Integer, Candidate> 
     }
 
     @Override
-    public ISaver<Candidate> getCSVFileSaver() {
-        return new CandidateCSVFileSaver();
-    }
-
-    @Override
-    public ISaver<Candidate> getFileSaver() {
-        return new CandidateFileSaver("|");
-    }
-
-    @Override
-    public ISaver<Candidate> getHTMLSaver() {
-        return new CandidateHTMLSaver();
+    protected void loadExporters() {
+        exporters.put("PDF",new CandidatePDFSaver());
+        exporters.put("HTML",new CandidateHTMLSaver());
+        exporters.put("CSV",new CandidateCSVFileSaver());
+        exporters.put("TXT",new CandidateFileSaver());
     }
 
     public List<Candidate> filterByPrefix(String prefix) throws MyException {

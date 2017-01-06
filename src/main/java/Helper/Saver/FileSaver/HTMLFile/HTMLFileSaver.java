@@ -1,6 +1,7 @@
 package Helper.Saver.FileSaver.HTMLFile;
 
 import Helper.FileExceptions.MyFileException;
+import Helper.Saver.AbstractSaver;
 import Helper.Saver.FileSaver.BaseFileSaver;
 
 import java.io.BufferedWriter;
@@ -13,9 +14,8 @@ import java.util.List;
 /**
  * Created by andrei on 2017-01-06.
  */
-public abstract class HTMLFileSaver<T> extends BaseFileSaver<T> {
-    public HTMLFileSaver() {
-        super(" ");
+public abstract class HTMLFileSaver<T> extends AbstractSaver<T> {
+    public HTMLFileSaver(){
     }
 
     @Override
@@ -48,6 +48,8 @@ public abstract class HTMLFileSaver<T> extends BaseFileSaver<T> {
             throw new MyFileException(e.getMessage());
         }
     }
+
+    protected abstract String getFormat(T object);
 
     protected abstract String getColumns();
 }

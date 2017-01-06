@@ -96,7 +96,7 @@ public class SectionsGUIController implements IObserver<Section> {
         sectionsExportStage = new Stage();
         sectionsExportStage.initModality(Modality.APPLICATION_MODAL);
         sectionsExportStage.setResizable(false);
-        sectionsExportStage.setTitle("Export");
+        sectionsExportStage.setTitle("export");
         sectionsExportGUILoader = new FXMLLoader(getClass().getResource("/GUI/sectionsGUI/exportSectionsGUI.fxml"));
         sectionsExportScene = sectionsExportGUILoader.load();
         sectionsExportGUIController = sectionsExportGUILoader.getController();

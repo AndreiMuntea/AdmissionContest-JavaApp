@@ -7,6 +7,7 @@ import Helper.Saver.FileSaver.CSVFile.OptionCSVFileSaver;
 import Helper.Saver.FileSaver.HTMLFile.OptionHTMLSaver;
 import Helper.Saver.FileSaver.TextFile.OptionFileSaver;
 import Helper.Saver.ISaver;
+import Helper.Saver.PDFFile.OptionPDFSaver;
 import Repository.IRepository;
 import Utils.Pair.Pair;
 import Validator.IValidator;
@@ -40,17 +41,10 @@ public class OptionController extends AbstractController<Pair<Integer, Integer>,
     }
 
     @Override
-    public ISaver<Option> getCSVFileSaver() {
-        return new OptionCSVFileSaver();
-    }
-
-    @Override
-    public ISaver<Option> getFileSaver() {
-        return new OptionFileSaver("|");
-    }
-
-    @Override
-    public ISaver<Option> getHTMLSaver() {
-        return new OptionHTMLSaver();
+    protected void loadExporters() {
+        exporters.put("PDF",new OptionPDFSaver());
+        exporters.put("HTML",new OptionHTMLSaver());
+        exporters.put("CSV",new OptionCSVFileSaver());
+        exporters.put("TXT",new OptionFileSaver());
     }
 }

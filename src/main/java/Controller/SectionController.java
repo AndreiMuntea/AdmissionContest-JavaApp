@@ -6,6 +6,7 @@ import Helper.Saver.FileSaver.CSVFile.SectionCSVFileSaver;
 import Helper.Saver.FileSaver.HTMLFile.SectionHTMLSaver;
 import Helper.Saver.FileSaver.TextFile.SectionFileSaver;
 import Helper.Saver.ISaver;
+import Helper.Saver.PDFFile.SectionPDFSaver;
 import Repository.IRepository;
 import Validator.IValidator;
 
@@ -48,17 +49,10 @@ public class SectionController extends AbstractController<Integer, Section> {
     }
 
     @Override
-    public ISaver<Section> getCSVFileSaver() {
-        return new SectionCSVFileSaver();
-    }
-
-    @Override
-    public ISaver<Section> getFileSaver() {
-        return new SectionFileSaver("|");
-    }
-
-    @Override
-    public ISaver<Section> getHTMLSaver() {
-        return new SectionHTMLSaver();
+    protected void loadExporters() {
+        exporters.put("PDF",new SectionPDFSaver());
+        exporters.put("HTML",new SectionHTMLSaver());
+        exporters.put("CSV",new SectionCSVFileSaver());
+        exporters.put("TXT",new SectionFileSaver());
     }
 }

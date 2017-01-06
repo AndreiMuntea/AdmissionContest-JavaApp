@@ -52,9 +52,7 @@ public class CandidatesExportGUIController {
         String path = directoryPathTextField.getText();
         String fileName = fileNameTextField.getText();
         try {
-            if (option.equals("CSV")) candidateController.ExportAsCSV(path, fileName);
-            else if (option.equals("TXT")) candidateController.ExportAsTXT(path, fileName);
-            else if (option.equals("HTML")) candidateController.ExportAsHTML(path, fileName);
+            candidateController.Export(path,fileName,option);
         } catch (MyException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.showAndWait();
