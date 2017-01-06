@@ -97,7 +97,7 @@ public class AverageSectionsController {
             data.getData().add(new XYChart.Data<>(s.getSectionName(), s.getSectionAverage()));
         }
         bc.getData().add(data);
-        
+
         centerPane.getChildren().add(bc);
         img = SwingFXUtils.fromFXImage(centerPane.snapshot(new SnapshotParameters(), null), null);
         mainStage.show();
@@ -125,9 +125,11 @@ public class AverageSectionsController {
 
         try {
             File file = fileChooser.showSaveDialog(mainStage);
-            String filePath = file.getAbsolutePath();
-            String extension = FilenameUtils.getExtension(filePath);
-            optionController.exportImage(this.img, filePath, extension);
+            if (file != null) {
+                String filePath = file.getAbsolutePath();
+                String extension = FilenameUtils.getExtension(filePath);
+                optionController.exportImage(this.img, filePath, extension);
+            }
         } catch (MyException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.showAndWait();

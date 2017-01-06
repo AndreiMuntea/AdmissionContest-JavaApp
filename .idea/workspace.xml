@@ -55,11 +55,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TopSectionsController.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TopSectionsController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/GUI/OptionsGUI/Reports/TopSectionsController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-147">
-              <caret line="40" column="5" lean-forward="true" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
+            <state relative-caret-position="359">
+              <caret line="126" column="31" lean-forward="true" selection-start-line="126" selection-start-column="31" selection-end-line="126" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -102,11 +102,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AverageSectionsController.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AverageSectionsController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/GUI/OptionsGUI/Reports/AverageSectionsController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
-              <caret line="99" column="8" lean-forward="false" selection-start-line="99" selection-start-column="8" selection-end-line="99" selection-end-column="8" />
+            <state relative-caret-position="389">
+              <caret line="127" column="0" lean-forward="false" selection-start-line="127" selection-start-column="0" selection-end-line="131" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -192,11 +192,11 @@
         <option value="$PROJECT_DIR$/src/main/java/Helper/ImageExporter/IImageExporter.java" />
         <option value="$PROJECT_DIR$/src/main/java/Helper/ImageExporter/BaseImageExporter.java" />
         <option value="$PROJECT_DIR$/src/main/java/Controller/OptionController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/GUI/OptionsGUI/Reports/TopSectionsController.java" />
         <option value="$PROJECT_DIR$/src/main/java/Helper/ImageExporter/PDFExporter.java" />
         <option value="$PROJECT_DIR$/src/main/resources/GUI/OptionsGUI/averageSectionsReport.fxml" />
         <option value="$PROJECT_DIR$/src/main/java/GUI/OptionsGUI/OptionGUIController.java" />
         <option value="$PROJECT_DIR$/src/main/java/GUI/OptionsGUI/Reports/AverageSectionsController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/GUI/OptionsGUI/Reports/TopSectionsController.java" />
       </list>
     </option>
   </component>
@@ -1242,12 +1242,12 @@
       <workItem from="1483620420390" duration="12441000" />
       <workItem from="1483633308868" duration="1132000" />
       <workItem from="1483644315079" duration="33378000" />
-      <workItem from="1483679650667" duration="9847000" />
+      <workItem from="1483679650667" duration="10017000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="124840000" />
+    <option name="totallyTimeSpent" value="125010000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1259,7 +1259,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
+    <frame x="-9" y="-9" width="1938" height="1048" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1728,16 +1728,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/GUI/OptionsGUI/Reports/TopSectionsController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-147">
-          <caret line="40" column="5" lean-forward="true" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/GUI/OptionsGUI/OptionGUIController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-418">
@@ -1748,8 +1738,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/GUI/OptionsGUI/Reports/AverageSectionsController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="99" column="8" lean-forward="false" selection-start-line="99" selection-start-column="8" selection-end-line="99" selection-end-column="8" />
+        <state relative-caret-position="389">
+          <caret line="127" column="0" lean-forward="false" selection-start-line="127" selection-start-column="0" selection-end-line="131" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/GUI/OptionsGUI/Reports/TopSectionsController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="359">
+          <caret line="126" column="31" lean-forward="true" selection-start-line="126" selection-start-column="31" selection-end-line="126" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
