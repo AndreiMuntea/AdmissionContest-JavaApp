@@ -3,8 +3,8 @@ package GUI.OptionsGUI;
 import Controller.OptionController;
 import Domain.Candidate;
 import Domain.Section;
-import GUI.OptionsGUI.Reports.Bar.TopSectionsBarController;
-import GUI.OptionsGUI.Reports.PieCharts.AverageSectionsPieChartController;
+import GUI.OptionsGUI.Reports.Bar.BarController;
+import GUI.OptionsGUI.Reports.PieCharts.PieChartController;
 import Utils.Exceptions.MyException;
 import Utils.ObserverFramework.IObserver;
 import javafx.beans.property.SimpleListProperty;
@@ -77,8 +77,11 @@ public class OptionGUIController implements IObserver {
     @FXML
     private Button averageSectionsButton;
 
-    private AverageSectionsPieChartController averageSectionsPieChartController;
-    private TopSectionsBarController topSectionsBarController;
+    @FXML
+    private ComboBox<String> saveOptionComboBox;
+
+    private PieChartController pieChartController;
+    private BarController barController;
 
     private OptionController optionController;
     private Integer pageSize;
@@ -104,8 +107,8 @@ public class OptionGUIController implements IObserver {
         sectionNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         sectionSlotsColumn.setCellValueFactory(new PropertyValueFactory<>("availableSlots"));
 
-        averageSectionsPieChartController = new AverageSectionsPieChartController(optionController);
-        topSectionsBarController = new TopSectionsBarController(optionController);
+        pieChartController = new PieChartController(optionController);
+        barController = new BarController(optionController);
 
         slider.valueProperty().addListener(o->sliderAction());
 
@@ -188,7 +191,10 @@ public class OptionGUIController implements IObserver {
 
     public void getAverageSections(){
         try{
-            averageSectionsPieChartController.generateReport(topValueTextField.getText());
+            if(saveOptionComboBox.getValue().equals("PieChart"))
+                pieChartController.generateReportAverageSections(topValueTextField.getText());
+            else if (saveOptionComboBox.getValue().equals("BarChart"))
+                barController.generateReportAverageSections(topValueTextField.getText());
         } catch (MyException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.showAndWait();
@@ -197,7 +203,10 @@ public class OptionGUIController implements IObserver {
 
     public void getTopSections(){
         try{
-            topSectionsBarController.generateReport(topValueTextField.getText());
+            if(saveOptionComboBox.getValue().equals("PieChart"))
+                pieChartController.generateReportTopSections(topValueTextField.getText());
+            else if (saveOptionComboBox.getValue().equals("BarChart"))
+                barController.generateReportTopSections(topValueTextField.getText());
         } catch (MyException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.showAndWait();
