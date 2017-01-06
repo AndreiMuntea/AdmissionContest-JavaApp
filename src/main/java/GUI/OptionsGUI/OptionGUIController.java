@@ -3,16 +3,21 @@ package GUI.OptionsGUI;
 import Controller.OptionController;
 import Domain.Candidate;
 import Domain.Section;
-import GUI.OptionsGUI.Reports.Bar.BarController;
-import GUI.OptionsGUI.Reports.PieCharts.PieChartController;
+import GUI.OptionsGUI.Reports.AverageSectionsController;
+import GUI.OptionsGUI.Reports.TopSectionsController;
 import Utils.Exceptions.MyException;
 import Utils.ObserverFramework.IObserver;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 
 /**
@@ -80,8 +85,15 @@ public class OptionGUIController implements IObserver {
     @FXML
     private ComboBox<String> saveOptionComboBox;
 
-    private PieChartController pieChartController;
-    private BarController barController;
+    private FXMLLoader topSectionLoader;
+    private Stage topSectionStage;
+    private Parent topSectionScene;
+    private TopSectionsController topSectionsController;
+
+    private FXMLLoader averageSectionLoader;
+    private Stage averageSectionStage;
+    private Parent averageSectionScene;
+    private AverageSectionsController averageSectionsController;
 
     private OptionController optionController;
     private Integer pageSize;
@@ -107,8 +119,25 @@ public class OptionGUIController implements IObserver {
         sectionNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         sectionSlotsColumn.setCellValueFactory(new PropertyValueFactory<>("availableSlots"));
 
-        pieChartController = new PieChartController(optionController);
-        barController = new BarController(optionController);
+        topSectionStage = new Stage();
+        topSectionStage.initModality(Modality.APPLICATION_MODAL);
+        topSectionStage.setResizable(false);
+        topSectionStage.setTitle("Export top sections");
+        topSectionLoader = new FXMLLoader(getClass().getResource("/GUI/OptionsGUI/topSectionsReport.fxml"));
+        topSectionScene = topSectionLoader.load();
+        topSectionsController = topSectionLoader.getController();
+        topSectionStage.setScene(new Scene(topSectionScene, 600, 500));
+        topSectionsController.initialiseComponents(this.optionController, topSectionStage);
+
+        averageSectionStage = new Stage();
+        averageSectionStage.initModality(Modality.APPLICATION_MODAL);
+        averageSectionStage.setResizable(false);
+        averageSectionStage.setTitle("Export top sections");
+        averageSectionLoader = new FXMLLoader(getClass().getResource("/GUI/OptionsGUI/averageSectionsReport.fxml"));
+        averageSectionScene = averageSectionLoader.load();
+        averageSectionsController = averageSectionLoader.getController();
+        averageSectionStage.setScene(new Scene(averageSectionScene, 600, 500));
+        averageSectionsController.initialiseComponents(this.optionController, averageSectionStage);
 
         slider.valueProperty().addListener(o->sliderAction());
 
@@ -192,9 +221,9 @@ public class OptionGUIController implements IObserver {
     public void getAverageSections(){
         try{
             if(saveOptionComboBox.getValue().equals("PieChart"))
-                pieChartController.generateReportAverageSections(topValueTextField.getText());
-            else if (saveOptionComboBox.getValue().equals("BarChart"))
-                barController.generateReportAverageSections(topValueTextField.getText());
+                averageSectionsController.generatePieChart(topValueTextField.getText());
+            if (saveOptionComboBox.getValue().equals("BarChart"))
+                averageSectionsController.generateBarChart(topValueTextField.getText());
         } catch (MyException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.showAndWait();
@@ -204,9 +233,9 @@ public class OptionGUIController implements IObserver {
     public void getTopSections(){
         try{
             if(saveOptionComboBox.getValue().equals("PieChart"))
-                pieChartController.generateReportTopSections(topValueTextField.getText());
+                topSectionsController.generatePieChart(topValueTextField.getText());
             else if (saveOptionComboBox.getValue().equals("BarChart"))
-                barController.generateReportTopSections(topValueTextField.getText());
+                topSectionsController.generateBarChart(topValueTextField.getText());
         } catch (MyException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.showAndWait();

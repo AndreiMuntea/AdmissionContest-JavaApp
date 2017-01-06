@@ -6,6 +6,7 @@ import Domain.DTO.AverageSection;
 import Domain.DTO.TopSections;
 import Domain.Option;
 import Domain.Section;
+import Helper.ImageExporter.*;
 import Helper.Saver.FileSaver.CSVFile.OptionCSVFileSaver;
 import Helper.Saver.FileSaver.HTMLFile.OptionHTMLSaver;
 import Helper.Saver.FileSaver.TextFile.OptionFileSaver;
@@ -16,8 +17,10 @@ import Utils.Exceptions.MyException;
 import Utils.Pair.Pair;
 import Validator.IValidator;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -29,6 +32,7 @@ public class OptionController extends AbstractController<Pair<Integer, Integer>,
 
     private IRepository<Integer, Candidate> candidateRepository;
     private IRepository<Integer, Section> sectionRepository;
+    private HashMap<String, IImageExporter> imageExporters;
 
     public OptionController(IRepository<Pair<Integer, Integer>, Option> repository,
                             IValidator<Option> validator,
@@ -37,6 +41,8 @@ public class OptionController extends AbstractController<Pair<Integer, Integer>,
         super(repository, validator);
         this.candidateRepository = candidateRepository;
         this.sectionRepository = sectionRepository;
+        this.imageExporters = new HashMap<>();
+        loadImageExporters();
     }
 
     @Override
@@ -152,7 +158,7 @@ public class OptionController extends AbstractController<Pair<Integer, Integer>,
         return tops.stream().sorted(comparator.reversed()).collect(Collectors.toList()).subList(0, topSections);
     }
 
-    public List<AverageSection> getAverageSection(String top) throws MyException{
+    public List<AverageSection> getAverageSection(String top) throws MyException {
         Integer topSections;
         try {
             topSections = Integer.parseInt(top);
@@ -167,11 +173,18 @@ public class OptionController extends AbstractController<Pair<Integer, Integer>,
         for (Section s : allSections) {
             Double grade = 0.0;
             List<Candidate> candidatesSection = getCandidatesForSection(s.getID().toString());
-            for(Candidate c : candidatesSection) grade += c.getGrade();
+            for (Candidate c : candidatesSection) grade += c.getGrade();
             if (candidatesSection.size() != 0) grade /= candidatesSection.size();
             tops.add(new AverageSection(s.getName(), grade));
         }
         return tops.stream().sorted(comparator.reversed()).collect(Collectors.toList()).subList(0, topSections);
+    }
+
+    public void exportImage(BufferedImage image, String fileName, String format) throws MyException {
+        if (!imageExporters.containsKey(format)) {
+            throw new ControllerException("Undefined export!\n");
+        }
+        imageExporters.get(format).export(image, fileName, format);
     }
 
     @Override
@@ -180,5 +193,12 @@ public class OptionController extends AbstractController<Pair<Integer, Integer>,
         exporters.put("HTML", new OptionHTMLSaver());
         exporters.put("CSV", new OptionCSVFileSaver());
         exporters.put("TXT", new OptionFileSaver());
+    }
+
+    protected void loadImageExporters() {
+        imageExporters.put("png", new PNGExporter());
+        imageExporters.put("bmp", new BMPExporter());
+        imageExporters.put("jpg", new JPGExporter());
+        imageExporters.put("pdf", new PDFExporter());
     }
 }

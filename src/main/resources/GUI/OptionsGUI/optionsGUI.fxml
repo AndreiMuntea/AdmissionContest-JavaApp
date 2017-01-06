@@ -97,6 +97,8 @@
             </HBox>
             <HBox alignment="BOTTOM_RIGHT" prefHeight="13.0" prefWidth="314.0" spacing="10.0">
                <children>
+                   <Separator orientation="VERTICAL" prefHeight="200.0" />
+                   <Pane prefHeight="30.0" prefWidth="286.0" />
                    <fx:define>
                        <Image fx:id="addBtnImage" url="@../images/add1.png" />
                    </fx:define>
