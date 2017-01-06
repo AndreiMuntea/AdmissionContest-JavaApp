@@ -204,7 +204,7 @@ public class OptionGUIController implements IObserver {
             averageSectionStage = new Stage();
             averageSectionStage.initModality(Modality.APPLICATION_MODAL);
             averageSectionStage.setResizable(false);
-            averageSectionStage.setTitle("Export top sections");
+            averageSectionStage.setTitle("Export average sections");
             averageSectionLoader = new FXMLLoader(getClass().getResource("/GUI/OptionsGUI/averageSectionsReport.fxml"));
             averageSectionScene = averageSectionLoader.load();
             averageSectionsController = averageSectionLoader.getController();
