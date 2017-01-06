@@ -2,6 +2,8 @@ package Controller;
 
 import Controller.ControllerExceptions.ControllerException;
 import Domain.Candidate;
+import Domain.DTO.AverageSection;
+import Domain.DTO.TopSections;
 import Domain.Option;
 import Domain.Section;
 import Helper.Saver.FileSaver.CSVFile.OptionCSVFileSaver;
@@ -15,8 +17,10 @@ import Utils.Pair.Pair;
 import Validator.IValidator;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Created by andrei on 2017-01-04.
@@ -97,27 +101,77 @@ public class OptionController extends AbstractController<Pair<Integer, Integer>,
         } catch (NumberFormatException e) {
             throw new ControllerException("Candidate ID should be an integer!\n");
         }
-        Predicate<Option> filter = o->o.getCandidateID().equals(IDCandidate);
-        List<Option> options = super.FilterList(super.GetAll(),filter);
+        Predicate<Option> filter = o -> o.getCandidateID().equals(IDCandidate);
+        List<Option> options = super.FilterList(super.GetAll(), filter);
 
         List<Section> allSections = new ArrayList<>();
-        options.forEach(o -> {try {allSections.add(sectionRepository.GetElement(o.getSectionID()));} catch (RepositoryException ignored) {}});
+        options.forEach(o -> {
+            try {
+                allSections.add(sectionRepository.GetElement(o.getSectionID()));
+            } catch (RepositoryException ignored) {
+            }
+        });
         return allSections;
     }
 
-    public List<Candidate> getCandidatesForSection(String sectionID) throws MyException{
+    public List<Candidate> getCandidatesForSection(String sectionID) throws MyException {
         Integer IDSection;
         try {
             IDSection = Integer.parseInt(sectionID);
         } catch (NumberFormatException e) {
             throw new ControllerException("Section ID should be an integer!\n");
         }
-        Predicate<Option> filter = o->o.getSectionID().equals(sectionID);
-        List<Option> options = super.FilterList(super.GetAll(),filter);
+        Predicate<Option> filter = o -> o.getSectionID().equals(IDSection);
+        List<Option> options = super.FilterList(super.GetAll(), filter);
 
         List<Candidate> allCandidates = new ArrayList<>();
-        options.forEach(o -> {try {allCandidates.add(candidateRepository.GetElement(o.getCandidateID()));} catch (RepositoryException ignored) {}});
+        options.forEach(o -> {
+            try {
+                allCandidates.add(candidateRepository.GetElement(o.getCandidateID()));
+            } catch (RepositoryException ignored) {
+            }
+        });
         return allCandidates;
+    }
+
+    public List<TopSections> getTopSections(String top) throws MyException {
+        Integer topSections;
+        try {
+            topSections = Integer.parseInt(top);
+        } catch (NumberFormatException e) {
+            throw new ControllerException("Invalid value for top!\n");
+        }
+        List<Section> allSections = sectionRepository.GetAll();
+        List<TopSections> tops = new ArrayList<>();
+        Comparator<TopSections> comparator = Comparator.comparing(TopSections::getSectionRegisteredCandidates);
+
+        topSections = Math.min(allSections.size(), topSections);
+        for (Section s : allSections) {
+            tops.add(new TopSections(s.getName(), getCandidatesForSection(s.getID().toString()).size()));
+        }
+        return tops.stream().sorted(comparator.reversed()).collect(Collectors.toList()).subList(0, topSections);
+    }
+
+    public List<AverageSection> getAverageSection(String top) throws MyException{
+        Integer topSections;
+        try {
+            topSections = Integer.parseInt(top);
+        } catch (NumberFormatException e) {
+            throw new ControllerException("Invalid value for top!\n");
+        }
+        List<Section> allSections = sectionRepository.GetAll();
+        List<AverageSection> tops = new ArrayList<>();
+        Comparator<AverageSection> comparator = Comparator.comparing(AverageSection::getSectionAverage);
+
+        topSections = Math.min(allSections.size(), topSections);
+        for (Section s : allSections) {
+            Double grade = 0.0;
+            List<Candidate> candidatesSection = getCandidatesForSection(s.getID().toString());
+            for(Candidate c : candidatesSection) grade += c.getGrade();
+            if (candidatesSection.size() != 0) grade /= candidatesSection.size();
+            tops.add(new AverageSection(s.getName(), grade));
+        }
+        return tops.stream().sorted(comparator.reversed()).collect(Collectors.toList()).subList(0, topSections);
     }
 
     @Override

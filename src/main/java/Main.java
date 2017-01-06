@@ -56,7 +56,7 @@ public class Main extends Application {
         IValidator<Option> optionValidator = new OptionValidator();
         OptionController optionController = new OptionController(optionRepository, optionValidator, candidateRepository, sectionRepository);
 
-        GUI gui = new GUI(primaryStage, candidateController, sectionController, optionController, 2);
+        GUI gui = new GUI(primaryStage, candidateController, sectionController, optionController, 10);
         gui.start();
     }
 }

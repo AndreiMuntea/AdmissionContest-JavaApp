@@ -3,6 +3,8 @@ package GUI.OptionsGUI;
 import Controller.OptionController;
 import Domain.Candidate;
 import Domain.Section;
+import GUI.OptionsGUI.Reports.Bar.TopSectionsBarController;
+import GUI.OptionsGUI.Reports.PieCharts.AverageSectionsPieChartController;
 import Utils.Exceptions.MyException;
 import Utils.ObserverFramework.IObserver;
 import javafx.beans.property.SimpleListProperty;
@@ -75,6 +77,8 @@ public class OptionGUIController implements IObserver {
     @FXML
     private Button averageSectionsButton;
 
+    private AverageSectionsPieChartController averageSectionsPieChartController;
+    private TopSectionsBarController topSectionsBarController;
 
     private OptionController optionController;
     private Integer pageSize;
@@ -99,6 +103,9 @@ public class OptionGUIController implements IObserver {
         sectionIDColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
         sectionNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         sectionSlotsColumn.setCellValueFactory(new PropertyValueFactory<>("availableSlots"));
+
+        averageSectionsPieChartController = new AverageSectionsPieChartController(optionController);
+        topSectionsBarController = new TopSectionsBarController(optionController);
 
         slider.valueProperty().addListener(o->sliderAction());
 
@@ -150,7 +157,8 @@ public class OptionGUIController implements IObserver {
     }
 
     public void sliderAction(){
-        topValueTextField.setText(String.format("%.0f",slider.getValue()));
+        String newValue = String.format("%.0f",slider.getValue());
+        if (newValue != topValueTextField.getText()) topValueTextField.setText(newValue);
     }
 
     public void pageChangedHandler() {
@@ -178,13 +186,32 @@ public class OptionGUIController implements IObserver {
         updateModel();
     }
 
+    public void getAverageSections(){
+        try{
+            averageSectionsPieChartController.generateReport(topValueTextField.getText());
+        } catch (MyException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+    public void getTopSections(){
+        try{
+            topSectionsBarController.generateReport(topValueTextField.getText());
+        } catch (MyException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
     private void updateModel() {
         try {
             candidatesModel = new SimpleListProperty<>(FXCollections.observableArrayList(optionController.getPageCandidates(pageSize, currentPage)));
             candidatesTable.setItems(candidatesModel);
             candidateChanged();
         } catch (MyException e) {
-            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            alert.showAndWait();
         }
     }
 
@@ -194,6 +221,5 @@ public class OptionGUIController implements IObserver {
         id[1] = sectionIDTextField.getText();
         return id;
     }
-
 
 }

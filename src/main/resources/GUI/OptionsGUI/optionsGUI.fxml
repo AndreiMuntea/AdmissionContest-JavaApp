@@ -128,8 +128,8 @@
             </Separator>
             <HBox alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="314.0" spacing="10.0">
                <children>
-                  <Slider fx:id="slider" blockIncrement="0.05" majorTickUnit="1.0" max="10.0" minorTickCount="0" prefHeight="18.0" prefWidth="242.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
-                  <TextField fx:id="topValueTextField" alignment="CENTER" editable="false" prefHeight="31.0" prefWidth="122.0" text="0" />
+                  <Slider fx:id="slider"  majorTickUnit="1.0" max="10.0" min = "1.0" minorTickCount="0" prefHeight="18.0" prefWidth="242.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+                  <TextField fx:id="topValueTextField" alignment="CENTER" editable="false" prefHeight="31.0" prefWidth="122.0" text="1" />
                </children>
                <padding>
                   <Insets top="10.0" />
@@ -140,12 +140,12 @@
                   <Insets top="20.0" />
                </padding>
                <children>
-                  <Button fx:id="solicitedSections" mnemonicParsing="false" prefHeight="31.0" prefWidth="178.0" text="Solicited sections">
+                  <Button fx:id="solicitedSections" onMouseClicked="#getTopSections" mnemonicParsing="false" prefHeight="31.0" prefWidth="178.0" text="Solicited sections">
                       <tooltip>
                           <Tooltip text="Displays a report of most solicited sections" />
                       </tooltip>
                   </Button>
-                  <Button fx:id="averageSectionsButton" mnemonicParsing="false" prefHeight="31.0" prefWidth="178.0" text="Average sections">
+                  <Button fx:id="averageSectionsButton" onMouseClicked="#getAverageSections" mnemonicParsing="false" prefHeight="31.0" prefWidth="178.0" text="Average sections">
                       <tooltip>
                           <Tooltip text="Displays a report of sections by candidates grade average" />
                       </tooltip>
