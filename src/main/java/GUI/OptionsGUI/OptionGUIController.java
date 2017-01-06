@@ -119,26 +119,6 @@ public class OptionGUIController implements IObserver {
         sectionNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         sectionSlotsColumn.setCellValueFactory(new PropertyValueFactory<>("availableSlots"));
 
-        topSectionStage = new Stage();
-        topSectionStage.initModality(Modality.APPLICATION_MODAL);
-        topSectionStage.setResizable(false);
-        topSectionStage.setTitle("Export top sections");
-        topSectionLoader = new FXMLLoader(getClass().getResource("/GUI/OptionsGUI/topSectionsReport.fxml"));
-        topSectionScene = topSectionLoader.load();
-        topSectionsController = topSectionLoader.getController();
-        topSectionStage.setScene(new Scene(topSectionScene, 600, 500));
-        topSectionsController.initialiseComponents(this.optionController, topSectionStage);
-
-        averageSectionStage = new Stage();
-        averageSectionStage.initModality(Modality.APPLICATION_MODAL);
-        averageSectionStage.setResizable(false);
-        averageSectionStage.setTitle("Export top sections");
-        averageSectionLoader = new FXMLLoader(getClass().getResource("/GUI/OptionsGUI/averageSectionsReport.fxml"));
-        averageSectionScene = averageSectionLoader.load();
-        averageSectionsController = averageSectionLoader.getController();
-        averageSectionStage.setScene(new Scene(averageSectionScene, 600, 500));
-        averageSectionsController.initialiseComponents(this.optionController, averageSectionStage);
-
         slider.valueProperty().addListener(o->sliderAction());
 
         updateModel();
@@ -219,24 +199,45 @@ public class OptionGUIController implements IObserver {
     }
 
     public void getAverageSections(){
+
         try{
+            averageSectionStage = new Stage();
+            averageSectionStage.initModality(Modality.APPLICATION_MODAL);
+            averageSectionStage.setResizable(false);
+            averageSectionStage.setTitle("Export top sections");
+            averageSectionLoader = new FXMLLoader(getClass().getResource("/GUI/OptionsGUI/averageSectionsReport.fxml"));
+            averageSectionScene = averageSectionLoader.load();
+            averageSectionsController = averageSectionLoader.getController();
+            averageSectionStage.setScene(new Scene(averageSectionScene, 600, 500));
+            averageSectionsController.initialiseComponents(this.optionController, averageSectionStage);
+
             if(saveOptionComboBox.getValue().equals("PieChart"))
                 averageSectionsController.generatePieChart(topValueTextField.getText());
             if (saveOptionComboBox.getValue().equals("BarChart"))
                 averageSectionsController.generateBarChart(topValueTextField.getText());
-        } catch (MyException e) {
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.showAndWait();
         }
     }
 
     public void getTopSections(){
+
         try{
+            topSectionStage = new Stage();
+            topSectionStage.initModality(Modality.APPLICATION_MODAL);
+            topSectionStage.setResizable(false);
+            topSectionStage.setTitle("Export top sections");
+            topSectionLoader = new FXMLLoader(getClass().getResource("/GUI/OptionsGUI/topSectionsReport.fxml"));
+            topSectionScene = topSectionLoader.load();
+            topSectionsController = topSectionLoader.getController();
+            topSectionStage.setScene(new Scene(topSectionScene, 600, 500));
+            topSectionsController.initialiseComponents(this.optionController, topSectionStage);
             if(saveOptionComboBox.getValue().equals("PieChart"))
                 topSectionsController.generatePieChart(topValueTextField.getText());
             else if (saveOptionComboBox.getValue().equals("BarChart"))
                 topSectionsController.generateBarChart(topValueTextField.getText());
-        } catch (MyException e) {
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.showAndWait();
         }

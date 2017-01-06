@@ -65,7 +65,7 @@ public class TopSectionsController {
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(data);
         PieChart chart = new PieChart(pieChartData);
         chart.setLabelLineLength(16);
-        chart.setLegendSide(Side.RIGHT);
+        chart.setLegendSide(Side.BOTTOM);
 
         chart.setTitle("Top Sections");
         centerPane.getChildren().add(chart);
