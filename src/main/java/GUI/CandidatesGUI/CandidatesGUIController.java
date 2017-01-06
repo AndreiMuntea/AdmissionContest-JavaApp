@@ -95,7 +95,6 @@ public class CandidatesGUIController implements IObserver<Candidate> {
     public void initComponents(CandidateController candidateController, Integer pageSize) throws Exception {
         this.candidateController = candidateController;
         this.pageSize = pageSize;
-        this.candidateController.addObserver(this);
         this.currentPage = 0;
 
         candidateName.setCellValueFactory(new PropertyValueFactory<>("name"));

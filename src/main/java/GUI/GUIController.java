@@ -4,6 +4,7 @@ import Controller.CandidateController;
 import Controller.OptionController;
 import Controller.SectionController;
 import GUI.CandidatesGUI.CandidatesGUIController;
+import GUI.OptionsGUI.OptionGUIController;
 import GUI.SectionsGUI.SectionsGUIController;
 import Utils.Exceptions.MyException;
 import javafx.fxml.FXML;
@@ -41,6 +42,7 @@ public class GUIController {
 
     private CandidatesGUIController candidatesGUIController;
     private SectionsGUIController sectionsGUIController;
+    private OptionGUIController optionGUIController;
 
 
     public GUIController()
@@ -63,9 +65,22 @@ public class GUIController {
         sectionsGUIController = sectionsLoader.getController();
         sectionsGUIController.initComponents(sectionController,pageSize);
 
+        optionsLoader = new FXMLLoader(getClass().getResource("/GUI/OptionsGUI/optionsGUI.fxml"));
+        optionScene = optionsLoader.load();
+        optionGUIController = optionsLoader.getController();
+        optionGUIController.initComponents(optionController,pageSize);
+
         candidatesButton.setDisable(true);
         sectionsButton.setDisable(false);
         optionsButton.setDisable(false);
+
+        candidateController.addObserver(candidatesGUIController);
+        candidateController.addObserver(optionGUIController);
+
+        sectionController.addObserver(sectionsGUIController);
+        sectionController.addObserver(optionGUIController);
+
+        optionController.addObserver(optionGUIController);
 
         mainPane.getChildren().clear();
         mainPane.getChildren().add(candidateScene);
@@ -99,6 +114,6 @@ public class GUIController {
         optionsButton.setDisable(true);
 
         mainPane.getChildren().clear();
-        //mainPane.getChildren().add(optionScene);
+        mainPane.getChildren().add(optionScene);
     }
 }

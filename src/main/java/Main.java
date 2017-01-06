@@ -10,7 +10,7 @@ import Domain.Candidate;
 import Domain.Option;
 import Domain.Section;
 import GUI.GUI;
-import Repository.DatabaseRepository;
+import Repository.DatabaseRepository.DatabaseRepository;
 import Repository.IRepository;
 import Utils.Pair.Pair;
 import Validator.CandidateValidator;
@@ -54,7 +54,7 @@ public class Main extends Application {
         AbstractTableManager<Pair<Integer, Integer>, Option> optionTableManager = new OptionTableManager("options");
         IRepository<Pair<Integer, Integer>, Option> optionRepository = new DatabaseRepository<Pair<Integer, Integer>, Option>(dbManager, optionTableManager);
         IValidator<Option> optionValidator = new OptionValidator();
-        OptionController optionController = new OptionController(optionRepository, optionValidator);
+        OptionController optionController = new OptionController(optionRepository, optionValidator, candidateRepository, sectionRepository);
 
         GUI gui = new GUI(primaryStage, candidateController, sectionController, optionController, 2);
         gui.start();

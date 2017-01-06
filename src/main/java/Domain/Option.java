@@ -28,4 +28,8 @@ public class Option extends HasID<Pair<Integer, Integer>> {
         return super.getID().getSecond();
     }
 
+    @Override
+    public String toString() {
+        return getCandidateID() + " " + getSectionID();
+    }
 }

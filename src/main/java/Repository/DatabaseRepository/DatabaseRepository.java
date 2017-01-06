@@ -1,8 +1,9 @@
-package Repository;
+package Repository.DatabaseRepository;
 
 import DatabaseManager.DatabaseManager;
 import DatabaseManager.TableManager.AbstractTableManager;
 import Domain.HasID;
+import Repository.IRepository;
 import Repository.RepositoryExceptions.DuplicateEntryRepositoryException;
 import Repository.RepositoryExceptions.RepositoryException;
 

@@ -24,6 +24,6 @@ public class AbstractObservable<T> implements IObservable<T> {
 
     @Override
     public void notifyObservers() {
-        observers.forEach(o -> o.update());
+        observers.forEach(IObserver::update);
     }
 }

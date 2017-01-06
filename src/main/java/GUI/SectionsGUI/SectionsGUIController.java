@@ -87,7 +87,6 @@ public class SectionsGUIController implements IObserver<Section> {
     public void initComponents(SectionController sectionController, Integer pageSize) throws Exception {
         this.sectionController = sectionController;
         this.pageSize = pageSize;
-        this.sectionController.addObserver(this);
         this.currentPage = 0;
 
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
