@@ -15,8 +15,8 @@ import java.util.List;
  */
 public class DatabaseRepository<ID, E extends HasID<ID>> implements IRepository<ID, E> {
 
-    private AbstractTableManager<ID, E> tableManager;
-    private DatabaseManager databaseManager;
+    protected AbstractTableManager<ID, E> tableManager;
+    protected DatabaseManager databaseManager;
 
     public DatabaseRepository(DatabaseManager databaseManager, AbstractTableManager<ID, E> tableManager) {
         this.tableManager = tableManager;

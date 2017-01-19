@@ -17,6 +17,8 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 
 /**
  * Created by andrei on 2017-01-04.
@@ -110,6 +112,8 @@ public class CandidatesGUIController implements IObserver<Candidate> {
         candidatesExportStage.setScene(new Scene(candidatesExportScene, 600, 230));
         candidatesExportGUIController.initialiseComponents(this.candidateController, candidatesExportStage);
 
+        filterByNameTextField.textProperty().addListener((v,oldValue,newValue)->filter());
+
         updateModel();
     }
 
@@ -122,6 +126,10 @@ public class CandidatesGUIController implements IObserver<Candidate> {
         addressTextField.setText(candidate.getAddress());
         gradeTextField.setText(String.format("%.2f", candidate.getGrade()));
         phoneNumberTextField.setText(candidate.getPhoneNumber());
+    }
+
+    public void filter()
+    {
     }
 
     public void addButtonHandler() {

@@ -40,7 +40,7 @@ public class OptionTableManager extends AbstractTableManager<Pair<Integer, Integ
     @Override
     public Option createObject(ResultSet result) throws SQLException {
         Option option = new Option();
-        Pair<Integer,Integer> ID = new Pair<Integer, Integer>();
+        Pair<Integer, Integer> ID = new Pair<Integer, Integer>();
 
         ID.setFirst(result.getInt("candidateID"));
         ID.setSecond(result.getInt("sectionID"));
@@ -48,4 +48,5 @@ public class OptionTableManager extends AbstractTableManager<Pair<Integer, Integ
         option.setID(ID);
         return option;
     }
+
 }

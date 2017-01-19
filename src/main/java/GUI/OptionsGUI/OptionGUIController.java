@@ -208,7 +208,7 @@ public class OptionGUIController implements IObserver {
             averageSectionLoader = new FXMLLoader(getClass().getResource("/GUI/OptionsGUI/averageSectionsReport.fxml"));
             averageSectionScene = averageSectionLoader.load();
             averageSectionsController = averageSectionLoader.getController();
-            averageSectionStage.setScene(new Scene(averageSectionScene, 600, 500));
+            averageSectionStage.setScene(new Scene(averageSectionScene, 1100, 700));
             averageSectionsController.initialiseComponents(this.optionController, averageSectionStage);
 
             if(saveOptionComboBox.getValue().equals("PieChart"))
@@ -231,7 +231,7 @@ public class OptionGUIController implements IObserver {
             topSectionLoader = new FXMLLoader(getClass().getResource("/GUI/OptionsGUI/topSectionsReport.fxml"));
             topSectionScene = topSectionLoader.load();
             topSectionsController = topSectionLoader.getController();
-            topSectionStage.setScene(new Scene(topSectionScene, 600, 500));
+            topSectionStage.setScene(new Scene(topSectionScene, 1100, 700));
             topSectionsController.initialiseComponents(this.optionController, topSectionStage);
             if(saveOptionComboBox.getValue().equals("PieChart"))
                 topSectionsController.generatePieChart(topValueTextField.getText());

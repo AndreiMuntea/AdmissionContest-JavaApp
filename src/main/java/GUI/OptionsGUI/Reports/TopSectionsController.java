@@ -3,6 +3,7 @@ package GUI.OptionsGUI.Reports;
 import Controller.OptionController;
 import Domain.DTO.TopSections;
 import Utils.Exceptions.MyException;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -63,9 +64,15 @@ public class TopSectionsController {
             data.add(new PieChart.Data(s.getSectionName(), s.getSectionRegisteredCandidates()));
         }
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(data);
+        pieChartData.forEach( datas -> datas.nameProperty().bind(
+                Bindings.concat(datas.getName(),": ", datas.pieValueProperty(), " Candidates")
+        ));
+
         PieChart chart = new PieChart(pieChartData);
         chart.setLabelLineLength(16);
         chart.setLegendSide(Side.BOTTOM);
+        chart.setMinWidth(1000);
+        chart.setMinHeight(600);
 
         chart.setTitle("Top Sections");
         centerPane.getChildren().add(chart);
@@ -95,6 +102,7 @@ public class TopSectionsController {
             data.getData().add(new XYChart.Data<>(s.getSectionName(), s.getSectionRegisteredCandidates()));
         }
 
+        bc.setMinWidth(1000);
 
         bc.getData().add(data);
         centerPane.getChildren().add(bc);

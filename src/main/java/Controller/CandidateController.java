@@ -65,19 +65,7 @@ public class CandidateController extends AbstractController<Integer, Candidate> 
         exporters.put("TXT",new CandidateFileSaver());
     }
 
-    public List<Candidate> filterByPrefix(String prefix) throws MyException {
-        Predicate<Candidate> predicate = c-> c.getName().startsWith(prefix);
-        return FilterList(GetAll(),predicate);
-    }
-
-    public List<Candidate> filterByGrade(String grade) throws MyException{
-        Double compareGrade;
-        try{
-            compareGrade = Double.parseDouble(grade);
-            Predicate<Candidate> predicate = c->c.getGrade() < compareGrade;
-            return FilterList(GetAll(), predicate);
-        }catch(NumberFormatException e){
-            throw new ControllerException("Grade should be a valid number!\n");
-        }
+    @Override
+    protected void loadFilters() {
     }
 }

@@ -2,8 +2,8 @@ package GUI.OptionsGUI.Reports;
 
 import Controller.OptionController;
 import Domain.DTO.AverageSection;
-import Domain.DTO.TopSections;
 import Utils.Exceptions.MyException;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
@@ -64,9 +64,16 @@ public class AverageSectionsController {
             data.add(new PieChart.Data(s.getSectionName(), s.getSectionAverage()));
         }
         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(data);
+
+        pieChartData.forEach( datas -> datas.nameProperty().bind(
+                Bindings.format("%s: %.2f Average",datas.getName(),datas.pieValueProperty(), " Average")
+        ));
+
         PieChart chart = new PieChart(pieChartData);
         chart.setLabelLineLength(16);
         chart.setLegendSide(Side.BOTTOM);
+        chart.setMinWidth(1000);
+        chart.setMinHeight(600);
 
         chart.setTitle("Average Sections");
         centerPane.getChildren().add(chart);
@@ -96,6 +103,8 @@ public class AverageSectionsController {
         {
             data.getData().add(new XYChart.Data<>(s.getSectionName(), s.getSectionAverage()));
         }
+
+        bc.setMinWidth(1000);
         bc.getData().add(data);
 
         centerPane.getChildren().add(bc);

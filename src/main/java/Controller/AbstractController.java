@@ -21,12 +21,17 @@ public abstract class AbstractController<ID, T> extends AbstractObservable<T> {
     private IRepository<ID, T> repository;
     private IValidator<T> validator;
     protected HashMap<String, ISaver<T>> exporters;
+    protected HashMap<String, Predicate<T>> filters;
 
     public AbstractController(IRepository<ID, T> repository, IValidator<T> validator) {
         this.repository = repository;
         this.validator = validator;
+
         this.exporters = new HashMap<>();
+        this.filters = new HashMap<>();
+
         loadExporters();
+        loadFilters();
     }
 
     public void Add(String... format) throws MyException {
@@ -84,6 +89,8 @@ public abstract class AbstractController<ID, T> extends AbstractObservable<T> {
     public abstract ID CreateIDFromFormat(String... format) throws ControllerException;
 
     protected abstract void loadExporters();
+
+    protected abstract void loadFilters();
 
     protected void export(ISaver<T> saver, String fileName) throws MyException
     {

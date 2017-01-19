@@ -83,11 +83,11 @@
                           <Font name="Sans Serif" size="22" />
                       </font>
                   </Label>
-                  <TextField fx:id="IDTextField" promptText="ID" >
-                      <tooltip>
-                          <Tooltip text="ID" />
-                      </tooltip>
-                  </TextField>
+                   <TextField fx:id="IDTextField" promptText="ID" >
+                       <tooltip>
+                           <Tooltip text="ID" />
+                       </tooltip>
+                   </TextField>
                   <TextField fx:id="nameTextField" promptText="Name" >
                       <tooltip>
                           <Tooltip text="name" />
@@ -165,8 +165,38 @@
                       </font>
                   </Label>
                    <Separator prefHeight="0.0" prefWidth="449.0" />
-                  <TextField fx:id="filterByNameTextField" promptText="Filter by name" />
-                  <TextField fx:id="filterByGradeTextField" promptText="Filter by grade" />
+                   <HBox  spacing="10.0" prefWidth="449.0" >
+                       <ComboBox fx:id="filterByNameComboBox" prefWidth="200.0">
+                           <items>
+                               <FXCollections fx:factory="observableArrayList">
+                                   <String fx:value="No filter" />
+                                   <String fx:value="Starts with" />
+                                   <String fx:value="Contains" />
+                                   <String fx:value="Ends with" />
+                               </FXCollections>
+                           </items>
+                           <value>
+                               <String fx:value="No filter" />
+                           </value>
+                       </ComboBox>
+                        <TextField fx:id="filterByNameTextField" promptText="Filter by name" prefWidth="249.0"/>
+                   </HBox>
+                   <HBox spacing="10.0" prefWidth="449.0" >
+                       <ComboBox fx:id="filterByGradeComboBox" prefWidth="200.0">
+                           <items>
+                               <FXCollections fx:factory="observableArrayList">
+                                   <String fx:value="No filter" />
+                                   <String fx:value="Greater than" />
+                                   <String fx:value="Smaller than" />
+                                   <String fx:value="Equal with" />
+                               </FXCollections>
+                           </items>
+                           <value>
+                               <String fx:value="No filter" />
+                           </value>
+                       </ComboBox>
+                  <TextField fx:id="filterByGradeTextField" promptText="Filter by grade" prefWidth="249.0"/>
+                   </HBox>
                </children>
                <VBox.margin>
                   <Insets bottom="10.0" right="10.0" top="10.0" />

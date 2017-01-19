@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public abstract class AbstractTableManager<ID, E extends HasID<ID>> {
 
-    private String tableName;
+    protected String tableName;
 
     public AbstractTableManager(String tableName) {
         this.tableName = tableName;

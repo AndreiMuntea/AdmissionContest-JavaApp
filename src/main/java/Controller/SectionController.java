@@ -55,4 +55,9 @@ public class SectionController extends AbstractController<Integer, Section> {
         exporters.put("CSV",new SectionCSVFileSaver());
         exporters.put("TXT",new SectionFileSaver());
     }
+
+    @Override
+    protected void loadFilters() {
+
+    }
 }
