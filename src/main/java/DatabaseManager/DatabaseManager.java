@@ -7,6 +7,7 @@ import Domain.HasID;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -71,6 +72,15 @@ public class DatabaseManager {
 
     public <ID, E extends HasID<ID>> List<E> GetRange(AbstractTableManager<ID, E> tableManager, int start, int rowCount) throws DatabaseException {
         Query query = tableManager.createGetRangeQuery(start, rowCount);
+        List<E> elements = ExecuteQuery(tableManager, query);
+        if (elements == null) {
+            throw new DatabaseException("Failed to execute statement!\n");
+        }
+        return elements;
+    }
+
+    public <ID, E extends HasID<ID>> List<E> ApplyFilters(AbstractTableManager<ID, E> tableManager,int start, int rowCount, HashMap<String, String> filters)throws DatabaseException{
+        Query query = tableManager.createFilterQuery(start, rowCount, filters);
         List<E> elements = ExecuteQuery(tableManager, query);
         if (elements == null) {
             throw new DatabaseException("Failed to execute statement!\n");

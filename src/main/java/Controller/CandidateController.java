@@ -39,7 +39,7 @@ public class CandidateController extends AbstractController<Integer, Candidate> 
             return new Candidate(ID, name, address, grade, phoneNumber);
 
         } catch (NumberFormatException e) {
-            throw new ControllerException("ID should be a positive integer and grade should be between [1,10] " + e.getMessage() + "\n");
+            throw new ControllerException("ID should be a positive integer and grade should be between [1,10]\n");
         }
     }
 
@@ -53,7 +53,7 @@ public class CandidateController extends AbstractController<Integer, Candidate> 
             Integer ID = Integer.parseInt(format[0]);
             return ID;
         } catch (NumberFormatException e) {
-            throw new ControllerException("ID should be a positive integer " + e.getMessage() + "\n");
+            throw new ControllerException("ID should be a positive integer \n");
         }
     }
 
@@ -65,7 +65,4 @@ public class CandidateController extends AbstractController<Integer, Candidate> 
         exporters.put("TXT",new CandidateFileSaver());
     }
 
-    @Override
-    protected void loadFilters() {
-    }
 }

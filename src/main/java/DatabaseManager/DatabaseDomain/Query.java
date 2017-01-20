@@ -24,6 +24,8 @@ public class Query {
         queryArguments.add(argument);
     }
 
+    public void addStatement(String statement){query += statement;}
+
     public String getQuery() {
         return query;
     }
@@ -38,5 +40,12 @@ public class Query {
 
     public void setQueryArguments(List<String> queryArguments) {
         this.queryArguments = queryArguments;
+    }
+
+    public void addQuery(Query other, String separator)
+    {
+        if (other == null) return;
+        this.query += other.getQuery() + separator;
+        this.queryArguments.addAll(other.getQueryArguments());
     }
 }

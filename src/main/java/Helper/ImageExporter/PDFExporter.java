@@ -29,7 +29,7 @@ public class PDFExporter implements IImageExporter {
             PdfWriter.getInstance(document, new FileOutputStream(file));
             document.open();
             Image img1 = Image.getInstance(newBufferedImage, null);
-            img1.scaleAbsolute(image.getWidth(),image.getHeight());
+            img1.scaleAbsolute(600,350);
             document.add(img1);
             document.close();
         } catch(Exception e){

@@ -1,0 +1,10 @@
+conn_details:
+    JDBC_DRIVER : 'com.mysql.jdbc.Driver'
+    DB_URL : 'jdbc:mysql://localhost/app'
+    USER : 'root'
+    PASS : 'test'
+
+tables_details:
+    candidates_table : 'candidates'
+    sections_table : 'sections'
+    options_table : 'options'

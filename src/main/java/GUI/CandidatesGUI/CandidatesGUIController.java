@@ -17,7 +17,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.util.List;
+import java.util.HashMap;
 
 
 /**
@@ -79,6 +79,12 @@ public class CandidatesGUIController implements IObserver<Candidate> {
     @FXML
     private ComboBox<String> saveOptionComboBox;
 
+    @FXML
+    private ComboBox<String> filterByNameComboBox;
+
+    @FXML
+    private ComboBox<String> filterByGradeComboBox;
+
 
     private CandidateController candidateController;
     private Integer pageSize;
@@ -112,7 +118,11 @@ public class CandidatesGUIController implements IObserver<Candidate> {
         candidatesExportStage.setScene(new Scene(candidatesExportScene, 600, 230));
         candidatesExportGUIController.initialiseComponents(this.candidateController, candidatesExportStage);
 
-        filterByNameTextField.textProperty().addListener((v,oldValue,newValue)->filter());
+        filterByNameTextField.textProperty().addListener((v, oldValue, newValue) -> updateModel());
+        filterByNameComboBox.valueProperty().addListener((v, oldValue, newValue) -> updateModel());
+
+        filterByGradeTextField.textProperty().addListener((v, oldValue, newValue) -> updateModel());
+        filterByGradeComboBox.valueProperty().addListener((v, oldValue, newValue) -> updateModel());
 
         updateModel();
     }
@@ -128,8 +138,13 @@ public class CandidatesGUIController implements IObserver<Candidate> {
         phoneNumberTextField.setText(candidate.getPhoneNumber());
     }
 
-    public void filter()
-    {
+    public HashMap<String, String> loadFilters() {
+        HashMap<String, String> filters = new HashMap<>();
+
+        loadNameFilter(filters);
+        loadGradeFilter(filters);
+
+        return filters;
     }
 
     public void addButtonHandler() {
@@ -166,7 +181,8 @@ public class CandidatesGUIController implements IObserver<Candidate> {
             String exportOption = saveOptionComboBox.getValue();
             candidatesExportGUIController.setDetails(directoryPath, exportOption);
             candidatesExportStage.show();
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
     }
 
     public void pageChangedHandler() {
@@ -196,7 +212,8 @@ public class CandidatesGUIController implements IObserver<Candidate> {
 
     private void updateModel() {
         try {
-            model = new SimpleListProperty<>(FXCollections.observableArrayList(candidateController.GetPage(pageSize, currentPage)));
+            HashMap<String, String> filters = loadFilters();
+            model = new SimpleListProperty<>(FXCollections.observableArrayList(candidateController.ApplyFilters(pageSize, currentPage, filters)));
             candidatesTable.setItems(model);
         } catch (MyException e) {
             e.printStackTrace();
@@ -218,6 +235,33 @@ public class CandidatesGUIController implements IObserver<Candidate> {
         String candidateID[] = new String[1];
         candidateID[0] = IDTextField.getText();
         return candidateID;
+    }
+
+    private void loadNameFilter(HashMap<String, String> allFilters) {
+        if (filterByNameComboBox.getValue().equals("No filter"))
+            return;
+        if (filterByNameTextField.getText().isEmpty())
+            return;
+        allFilters.put(filterByNameComboBox.getValue(), filterByNameTextField.getText());
+    }
+
+    private void loadGradeFilter(HashMap<String, String> allFilters) {
+        filterByGradeTextField.getStyleClass().remove("error");
+        filterByGradeTextField.setTooltip(null);
+
+        if (filterByGradeComboBox.getValue().equals("No filter"))
+            return;
+        if(filterByGradeTextField.getText().equals(""))
+            return;
+        try{
+            Double.parseDouble(filterByGradeTextField.getText());
+            allFilters.put(filterByGradeComboBox.getValue(), filterByGradeTextField.getText());
+
+        }catch(NumberFormatException e)
+        {
+            filterByGradeTextField.setTooltip(new Tooltip("Grade should be a valid number!"));
+            filterByGradeTextField.getStyleClass().add("error");
+        }
     }
 
     @Override

@@ -162,8 +162,38 @@
                         <Font name="Sans Serif" size="22" />
                      </font>
                   </Label>
-                  <TextField fx:id="filterByNameTextField" promptText="Filter by name" />
-                  <TextField fx:id="filterByAvailableSlotsTextField" promptText="Filter by available slots" />
+                  <HBox  spacing="10.0" prefWidth="449.0" >
+                     <ComboBox fx:id="filterByNameComboBox" prefWidth="200.0">
+                        <items>
+                           <FXCollections fx:factory="observableArrayList">
+                              <String fx:value="No filter" />
+                              <String fx:value="Starts with" />
+                              <String fx:value="Contains" />
+                              <String fx:value="Ends with" />
+                           </FXCollections>
+                        </items>
+                        <value>
+                           <String fx:value="No filter" />
+                        </value>
+                     </ComboBox>
+                     <TextField fx:id="filterByNameTextField" promptText="Filter by name" prefWidth="249"/>
+                  </HBox>
+                  <HBox spacing="10.0" prefWidth="449.0" >
+                     <ComboBox fx:id="filterBySlotsComboBox" prefWidth="200.0">
+                        <items>
+                           <FXCollections fx:factory="observableArrayList">
+                              <String fx:value="No filter" />
+                              <String fx:value="Greater than" />
+                              <String fx:value="Smaller than" />
+                              <String fx:value="Equals with" />
+                           </FXCollections>
+                        </items>
+                        <value>
+                           <String fx:value="No filter" />
+                        </value>
+                     </ComboBox>
+                     <TextField fx:id="filterByAvailableSlotsTextField" promptText="Filter by available slots" prefWidth="249"/>
+                  </HBox>
                   <Separator prefWidth="200.0" />
                </children>
                <padding>

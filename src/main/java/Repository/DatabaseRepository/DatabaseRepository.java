@@ -7,6 +7,7 @@ import Repository.IRepository;
 import Repository.RepositoryExceptions.DuplicateEntryRepositoryException;
 import Repository.RepositoryExceptions.RepositoryException;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -62,5 +63,9 @@ public class DatabaseRepository<ID, E extends HasID<ID>> implements IRepository<
 
     public List<E> GetPage(Integer pageSize, Integer pageNumber) throws RepositoryException {
         return databaseManager.GetRange(tableManager, pageSize * pageNumber, pageSize);
+    }
+
+    public List<E> Filter(Integer pageSize, Integer pageNumber, HashMap<String, String> filters) throws RepositoryException{
+        return databaseManager.ApplyFilters(tableManager, pageSize * pageNumber, pageSize, filters);
     }
 }

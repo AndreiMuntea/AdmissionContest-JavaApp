@@ -30,7 +30,7 @@ public class SectionController extends AbstractController<Integer, Section> {
 
             return new Section(sectionID, sectionName, availableSlots);
         }catch(NumberFormatException e){
-            throw new ControllerException("ID and available slots should be positive Integers: " + e.getMessage() + "\n");
+            throw new ControllerException("ID and available slots should be positive Integers: \n");
         }
     }
 
@@ -44,7 +44,7 @@ public class SectionController extends AbstractController<Integer, Section> {
             Integer ID = Integer.parseInt(format[0]);
             return ID;
         } catch (NumberFormatException e) {
-            throw new ControllerException("ID should be a positive integer " + e.getMessage() + "\n");
+            throw new ControllerException("ID should be a positive integer \n");
         }
     }
 
@@ -54,10 +54,5 @@ public class SectionController extends AbstractController<Integer, Section> {
         exporters.put("HTML",new SectionHTMLSaver());
         exporters.put("CSV",new SectionCSVFileSaver());
         exporters.put("TXT",new SectionFileSaver());
-    }
-
-    @Override
-    protected void loadFilters() {
-
     }
 }

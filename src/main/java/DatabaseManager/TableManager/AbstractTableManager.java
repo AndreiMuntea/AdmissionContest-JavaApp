@@ -6,6 +6,7 @@ import Domain.HasID;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -124,6 +125,29 @@ public abstract class AbstractTableManager<ID, E extends HasID<ID>> {
         String query = String.format("SELECT * FROM `%s` LIMIT %d, %d", tableName, startRow, rowCount);
         return new Query(query, queryArguments);
     }
+
+
+    public Query createFilterQuery(int startRow, int rowCount, HashMap<String, String>filters)
+    {
+        ArrayList<String> queryArguments = new ArrayList<String>();
+        String queryStatement = String.format("SELECT * FROM `%s`", tableName);
+
+        Query query = new Query(queryStatement, queryArguments);
+
+        if(filters.size() > 0) {
+            query.addStatement(" WHERE ");
+            filters.keySet().forEach(key ->
+                    query.addQuery(analyzeFilter(key, filters.get(key)), " AND ")
+            );
+            query.setQuery(query.getQuery().substring(0, query.getQuery().length() - 4));
+        }
+
+        query.addStatement(String.format(" LIMIT %d, %d", startRow, rowCount));
+
+        return query;
+    }
+
+    public abstract Query analyzeFilter(String filter, String argument);
 
     public abstract Map<String, String> mapObject(E object);
 

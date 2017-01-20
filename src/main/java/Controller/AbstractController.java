@@ -7,7 +7,6 @@ import Utils.Exceptions.MyException;
 import Utils.ObserverFramework.AbstractObservable;
 import Validator.IValidator;
 
-import java.lang.reflect.Method;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -18,10 +17,10 @@ import java.util.stream.Collectors;
  * Created by andrei on 2017-01-04.
  */
 public abstract class AbstractController<ID, T> extends AbstractObservable<T> {
-    private IRepository<ID, T> repository;
-    private IValidator<T> validator;
     protected HashMap<String, ISaver<T>> exporters;
     protected HashMap<String, Predicate<T>> filters;
+    private IRepository<ID, T> repository;
+    private IValidator<T> validator;
 
     public AbstractController(IRepository<ID, T> repository, IValidator<T> validator) {
         this.repository = repository;
@@ -31,7 +30,6 @@ public abstract class AbstractController<ID, T> extends AbstractObservable<T> {
         this.filters = new HashMap<>();
 
         loadExporters();
-        loadFilters();
     }
 
     public void Add(String... format) throws MyException {
@@ -76,11 +74,14 @@ public abstract class AbstractController<ID, T> extends AbstractObservable<T> {
         return list.stream().sorted(comparator).collect(Collectors.toList());
     }
 
-    public void Export(String path, String fileName, String option) throws MyException
-    {
+    public void Export(String path, String fileName, String option) throws MyException {
         if (fileName.length() == 0) throw new ControllerException("File name can't be empty!\n");
-        if(!exporters.containsKey(option)) throw new ControllerException("Undefined export method!\n");
+        if (!exporters.containsKey(option)) throw new ControllerException("Undefined export method!\n");
         export(exporters.get(option), path + "/" + fileName + "." + option.toLowerCase());
+    }
+
+    public List<T> ApplyFilters(Integer pageSize, Integer pageNumber, HashMap<String, String> filters) throws MyException {
+        return repository.Filter(pageSize, pageNumber, filters);
     }
 
 
@@ -90,10 +91,7 @@ public abstract class AbstractController<ID, T> extends AbstractObservable<T> {
 
     protected abstract void loadExporters();
 
-    protected abstract void loadFilters();
-
-    protected void export(ISaver<T> saver, String fileName) throws MyException
-    {
-        saver.save(repository.GetAll(),fileName);
+    protected void export(ISaver<T> saver, String fileName) throws MyException {
+        saver.save(repository.GetAll(), fileName);
     }
 }

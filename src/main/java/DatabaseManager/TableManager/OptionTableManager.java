@@ -1,5 +1,6 @@
 package DatabaseManager.TableManager;
 
+import DatabaseManager.DatabaseDomain.Query;
 import Domain.Option;
 import Utils.Pair.Pair;
 
@@ -49,4 +50,8 @@ public class OptionTableManager extends AbstractTableManager<Pair<Integer, Integ
         return option;
     }
 
+    @Override
+    public Query analyzeFilter(String filter, String argument) {
+        return null;
+    }
 }

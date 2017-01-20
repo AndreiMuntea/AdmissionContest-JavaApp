@@ -158,12 +158,12 @@
                    </ComboBox>
                   <Button fx:id="solicitedSections" onMouseClicked="#getTopSections" mnemonicParsing="false" prefHeight="31.0" prefWidth="148.0" text="Solicited">
                       <tooltip>
-                          <Tooltip text="Displays a report of most solicited sections" />
+                          <Tooltip text="Displays a report of the most solicited sections" />
                       </tooltip>
                   </Button>
                   <Button fx:id="averageSectionsButton" onMouseClicked="#getAverageSections" mnemonicParsing="false" prefHeight="31.0" prefWidth="148.0" text="Average">
                       <tooltip>
-                          <Tooltip text="Displays a report of sections by candidates grade average" />
+                          <Tooltip text="Displays a report of sections sorted by candidates average grade" />
                       </tooltip>
                   </Button>
                </children>

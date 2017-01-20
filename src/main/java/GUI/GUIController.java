@@ -59,16 +59,21 @@ public class GUIController {
         candidateScene = candidatesLoader.load();
         candidatesGUIController = candidatesLoader.getController();
         candidatesGUIController.initComponents(candidateController, pageSize);
+        candidateScene.getStylesheets().add(getClass().getResource("/GUI/CandidatesGUI/candidatesGUI.css").toString());
+
 
         sectionsLoader = new FXMLLoader(getClass().getResource("/GUI/SectionsGUI/sectionsGUI.fxml"));
         sectionScene = sectionsLoader.load();
         sectionsGUIController = sectionsLoader.getController();
         sectionsGUIController.initComponents(sectionController,pageSize);
+        sectionScene.getStylesheets().add(getClass().getResource("/GUI/SectionsGUI/sectionsGUI.css").toString());
+
 
         optionsLoader = new FXMLLoader(getClass().getResource("/GUI/OptionsGUI/optionsGUI.fxml"));
         optionScene = optionsLoader.load();
         optionGUIController = optionsLoader.getController();
         optionGUIController.initComponents(optionController,pageSize);
+        optionScene.getStylesheets().add(getClass().getResource("/GUI/OptionsGUI/optionsGUI.css").toString());
 
         candidatesButton.setDisable(true);
         sectionsButton.setDisable(false);

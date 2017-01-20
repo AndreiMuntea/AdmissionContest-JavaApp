@@ -10,6 +10,7 @@ import Domain.Candidate;
 import Domain.Option;
 import Domain.Section;
 import GUI.GUI;
+import Helper.ConfigLoader.DatabaseConfigLoader;
 import Repository.DatabaseRepository.DatabaseRepository;
 import Repository.IRepository;
 import Utils.Pair.Pair;
@@ -20,17 +21,13 @@ import Validator.SectionValidator;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import java.net.URLDecoder;
+import java.util.Map;
+
 /**
  * Created by andrei on 2017-01-03.
  */
 public class Main extends Application {
-
-    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost/app";
-
-    //  Database credentials
-    static final String USER = "root";
-    static final String PASS = "test";
 
     public static void main(String[] args) throws Exception {
         launch(args);
@@ -38,20 +35,27 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        DatabaseManager dbManager = DatabaseManager.newInstance(JDBC_DRIVER, DB_URL, USER, PASS);
 
-        AbstractTableManager<Integer, Candidate> candidateTableManager = new CandidateTableManager("candidates");
+        DatabaseConfigLoader databaseConfigLoader = DatabaseConfigLoader.newInstance(URLDecoder.decode(getClass().getResource("/config/database.yaml").getFile(), "UTF-8"));
+
+        DatabaseManager dbManager = DatabaseManager.newInstance(
+                databaseConfigLoader.getJDBCDriver(),
+                databaseConfigLoader.getDBURL(),
+                databaseConfigLoader.getUser(),
+                databaseConfigLoader.getPassword());
+
+        AbstractTableManager<Integer, Candidate> candidateTableManager = new CandidateTableManager(databaseConfigLoader.getCandidatesTable());
         IRepository<Integer, Candidate> candidateRepository = new DatabaseRepository<Integer, Candidate>(dbManager, candidateTableManager);
         IValidator<Candidate> candidateValidator = new CandidateValidator();
         CandidateController candidateController = new CandidateController(candidateRepository, candidateValidator);
 
-        AbstractTableManager<Integer, Section> sectionTableManager = new SectionTableManager("sections");
+        AbstractTableManager<Integer, Section> sectionTableManager = new SectionTableManager(databaseConfigLoader.getSectionsTable());
         IRepository<Integer, Section> sectionRepository = new DatabaseRepository<Integer, Section>(dbManager, sectionTableManager);
         IValidator<Section> sectionValidator = new SectionValidator();
         SectionController sectionController = new SectionController(sectionRepository, sectionValidator);
 
 
-        AbstractTableManager<Pair<Integer, Integer>, Option> optionTableManager = new OptionTableManager("options");
+        AbstractTableManager<Pair<Integer, Integer>, Option> optionTableManager = new OptionTableManager(databaseConfigLoader.getOptionsTable());
         IRepository<Pair<Integer, Integer>, Option> optionRepository = new DatabaseRepository<Pair<Integer, Integer>, Option>(dbManager, optionTableManager);
         IValidator<Option> optionValidator = new OptionValidator();
         OptionController optionController = new OptionController(optionRepository, optionValidator, candidateRepository, sectionRepository);

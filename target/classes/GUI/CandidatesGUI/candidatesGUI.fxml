@@ -188,14 +188,14 @@
                                    <String fx:value="No filter" />
                                    <String fx:value="Greater than" />
                                    <String fx:value="Smaller than" />
-                                   <String fx:value="Equal with" />
+                                   <String fx:value="Equals with" />
                                </FXCollections>
                            </items>
                            <value>
                                <String fx:value="No filter" />
                            </value>
                        </ComboBox>
-                  <TextField fx:id="filterByGradeTextField" promptText="Filter by grade" prefWidth="249.0"/>
+                       <TextField fx:id="filterByGradeTextField" promptText="Filter by grade" prefWidth="249.0"/>
                    </HBox>
                </children>
                <VBox.margin>

@@ -195,11 +195,6 @@ public class OptionController extends AbstractController<Pair<Integer, Integer>,
         exporters.put("TXT", new OptionFileSaver());
     }
 
-    @Override
-    protected void loadFilters() {
-
-    }
-
     protected void loadImageExporters() {
         imageExporters.put("png", new PNGExporter());
         imageExporters.put("bmp", new BMPExporter());

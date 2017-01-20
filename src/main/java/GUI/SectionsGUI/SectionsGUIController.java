@@ -17,6 +17,8 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.util.HashMap;
+
 /**
  * Created by andrei on 2017-01-05.
  */
@@ -70,6 +72,12 @@ public class SectionsGUIController implements IObserver<Section> {
     @FXML
     private ComboBox<String> optionsComboBox;
 
+    @FXML
+    private ComboBox<String> filterByNameComboBox;
+
+    @FXML
+    private ComboBox<String> filterBySlotsComboBox;
+
     private SectionController sectionController;
     private Integer pageSize;
     private Integer currentPage;
@@ -102,12 +110,19 @@ public class SectionsGUIController implements IObserver<Section> {
         sectionsExportStage.setScene(new Scene(sectionsExportScene, 600, 230));
         sectionsExportGUIController.initialiseComponents(this.sectionController, sectionsExportStage);
 
+        filterByNameComboBox.valueProperty().addListener((v,oldValue,newValue)->updateModel());
+        filterByNameTextField.textProperty().addListener((v,oldValue,newValue)->updateModel());
+
+        filterByAvailableSlotsTextField.textProperty().addListener((v,oldValue,newValue)->updateModel());
+        filterBySlotsComboBox.valueProperty().addListener((v,oldValue,newValue)->updateModel());
+
         updateModel();
     }
 
     private void updateModel() {
         try {
-            model = new SimpleListProperty<>(FXCollections.observableArrayList(sectionController.GetPage(pageSize, currentPage)));
+            HashMap<String, String> filters = loadFilters();
+            model = new SimpleListProperty<>(FXCollections.observableArrayList(sectionController.ApplyFilters(pageSize, currentPage, filters)));
             sectionsTable.setItems(model);
         } catch (MyException e) {
             e.printStackTrace();
@@ -198,6 +213,42 @@ public class SectionsGUIController implements IObserver<Section> {
         String sectionID[] = new String[1];
         sectionID[0] = IDTextField.getText();
         return sectionID;
+    }
+
+    public HashMap<String, String> loadFilters() {
+        HashMap<String, String> filters = new HashMap<>();
+
+        loadNameFilter(filters);
+        loadSlotsFilter(filters);
+
+        return filters;
+    }
+
+    private void loadNameFilter(HashMap<String, String> allFilters) {
+        if (filterByNameComboBox.getValue().equals("No filter"))
+            return;
+        if (filterByNameTextField.getText().isEmpty())
+            return;
+        allFilters.put(filterByNameComboBox.getValue(), filterByNameTextField.getText());
+    }
+
+    private void loadSlotsFilter(HashMap<String, String> allFilters) {
+        filterByAvailableSlotsTextField.getStyleClass().remove("error");
+        filterByAvailableSlotsTextField.setTooltip(null);
+
+        if (filterBySlotsComboBox.getValue().equals("No filter"))
+            return;
+        if(filterByAvailableSlotsTextField.getText().equals(""))
+            return;
+        try{
+            Integer.parseInt(filterByAvailableSlotsTextField.getText());
+            allFilters.put(filterBySlotsComboBox.getValue(), filterByAvailableSlotsTextField.getText());
+
+        }catch(NumberFormatException e)
+        {
+            filterByAvailableSlotsTextField.setTooltip(new Tooltip("Argument should be a valid number!"));
+            filterByAvailableSlotsTextField.getStyleClass().add("error");
+        }
     }
 
     @Override

@@ -1,9 +1,11 @@
 package DatabaseManager.TableManager;
 
+import DatabaseManager.DatabaseDomain.Query;
 import Domain.Section;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,5 +45,40 @@ public class SectionTableManager extends AbstractTableManager<Integer, Section> 
         section.setAvailableSlots(result.getInt("slots"));
 
         return section;
+    }
+
+    private Query filterByName(String arg)
+    {
+        ArrayList<String> queryArguments = new ArrayList<String>();
+        String query = String.format("`%s`.name LIKE ? ESCAPE '!'", tableName);
+        queryArguments.add(arg);
+        return new Query(query, queryArguments);
+    }
+
+    private Query filterBySlots(String arg, String sign)
+    {
+        ArrayList<String> queryArguments = new ArrayList<String>();
+        String query = String.format("`%s`.slots %s ?", tableName, sign);
+        queryArguments.add(arg);
+
+        return new Query(query, queryArguments);
+    }
+
+    @Override
+    public Query analyzeFilter(String filter, String filterArg)
+    {
+        filterArg = filterArg
+                .replace("!","!!")
+                .replace("%","!%")
+                .replace("_","!_")
+                .replace("[","![");
+        if(filter.equals("Starts with")) return filterByName(filterArg + "%");
+        if(filter.equals("Contains")) return filterByName("%" + filterArg + "%");
+        if(filter.equals("Ends with")) return filterByName("%" + filterArg);
+        if(filter.equals("Greater than")) return filterBySlots(filterArg, ">=");
+        if(filter.equals("Smaller than")) return filterBySlots(filterArg, "<=");
+        if(filter.equals("Equals with")) return filterBySlots(filterArg, "=");
+
+        return null;
     }
 }
