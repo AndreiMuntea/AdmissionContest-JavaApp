@@ -20,8 +20,7 @@ import java.util.function.Predicate;
  */
 public class CandidateController extends AbstractController<Integer, Candidate> {
 
-    public CandidateController(IRepository<Integer, Candidate> repository, IValidator<Candidate> validator) {
-        super(repository, validator);
+    public CandidateController() {
     }
 
     @Override

@@ -12,8 +12,6 @@ import Domain.Section;
 import GUI.GUI;
 import Helper.ConfigLoader.ConfigLoader;
 import Helper.ConfigLoader.DatabaseConfigLoader;
-import Helper.Encryptor.AESEncryptor;
-import Helper.Encryptor.IEncryption;
 import Repository.DatabaseRepository.DatabaseRepository;
 import Repository.IRepository;
 import Utils.Pair.Pair;
@@ -23,10 +21,11 @@ import Validator.OptionValidator;
 import Validator.SectionValidator;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import javax.xml.crypto.Data;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Created by andrei on 2017-01-03.
@@ -40,32 +39,13 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        IEncryption encriptor = new AESEncryptor();
+        ApplicationContext context = new ClassPathXmlApplicationContext(URLDecoder.decode(getClass().getResource("/config/classes.xml").toString(),"UTF-8"));
 
-        ConfigLoader config = ConfigLoader.newInstance(URLDecoder.decode(getClass().getResource("/config/config.yaml").getFile(), "UTF-8"), encriptor);
-        DatabaseConfigLoader databaseConfigLoader = DatabaseConfigLoader.newInstance(URLDecoder.decode(getClass().getResource("/config/database.yaml").getFile(), "UTF-8"));
+        ConfigLoader config = (ConfigLoader) context.getBean("configLoader");
 
-        DatabaseManager dbManager = DatabaseManager.newInstance(
-                databaseConfigLoader.getJDBCDriver(),
-                databaseConfigLoader.getDBURL(),
-                databaseConfigLoader.getUser(),
-                databaseConfigLoader.getPassword());
-
-        AbstractTableManager<Integer, Candidate> candidateTableManager = new CandidateTableManager(databaseConfigLoader.getCandidatesTable());
-        IRepository<Integer, Candidate> candidateRepository = new DatabaseRepository<Integer, Candidate>(dbManager, candidateTableManager);
-        IValidator<Candidate> candidateValidator = new CandidateValidator();
-        CandidateController candidateController = new CandidateController(candidateRepository, candidateValidator);
-
-        AbstractTableManager<Integer, Section> sectionTableManager = new SectionTableManager(databaseConfigLoader.getSectionsTable());
-        IRepository<Integer, Section> sectionRepository = new DatabaseRepository<Integer, Section>(dbManager, sectionTableManager);
-        IValidator<Section> sectionValidator = new SectionValidator();
-        SectionController sectionController = new SectionController(sectionRepository, sectionValidator);
-
-
-        AbstractTableManager<Pair<Integer, Integer>, Option> optionTableManager = new OptionTableManager(databaseConfigLoader.getOptionsTable());
-        IRepository<Pair<Integer, Integer>, Option> optionRepository = new DatabaseRepository<Pair<Integer, Integer>, Option>(dbManager, optionTableManager);
-        IValidator<Option> optionValidator = new OptionValidator();
-        OptionController optionController = new OptionController(optionRepository, optionValidator, candidateRepository, sectionRepository);
+        CandidateController candidateController = (CandidateController) context.getBean("CandidateController");
+        SectionController sectionController = (SectionController) context.getBean("SectionController");
+        OptionController optionController = (OptionController) context.getBean("OptionController");
 
         GUI gui = new GUI(primaryStage, candidateController, sectionController, optionController, config);
         gui.start();

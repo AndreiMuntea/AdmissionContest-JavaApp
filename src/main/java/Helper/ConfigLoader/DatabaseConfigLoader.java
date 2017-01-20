@@ -5,6 +5,7 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.net.URLDecoder;
 import java.util.Map;
 
 /**
@@ -12,20 +13,15 @@ import java.util.Map;
  */
 public class DatabaseConfigLoader {
 
-    private static DatabaseConfigLoader instance = null;
+    private static final String PATH = "/config/database.yaml";
     private String configFile;
     private Yaml yaml;
     private Map<?, ?> config;
 
-    private DatabaseConfigLoader(String configFile) {
-        this.configFile = configFile;
+    public DatabaseConfigLoader() throws Exception {
+        this.configFile = URLDecoder.decode(this.getClass().getResource(PATH).getFile(), "UTF-8");
         this.yaml = new Yaml();
-        this.loadConfiguration();
-    }
-
-    public static DatabaseConfigLoader newInstance(String configFile) {
-        if (instance == null) instance = new DatabaseConfigLoader(configFile);
-        return instance;
+        loadConfiguration();
     }
 
     private void loadConfiguration() {

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <bean id="configLoader" class="Helper.ConfigLoader.ConfigLoader" scope="singleton">
+        <property name="encryptor">
+            <bean id="encryptorID" class="Helper.Encryptor.AESEncryptor"/>
+        </property>
+    </bean>
+
+    <bean id="databaseConfigLoader" class="Helper.ConfigLoader.DatabaseConfigLoader" scope="singleton"/>
+
+    <bean id="databaseManager" class="DatabaseManager.DatabaseManager" scope="singleton">
+        <property name="databaseConfigLoader" ref="databaseConfigLoader" />
+    </bean>
+
+
+    <bean id="candidateRepository" class="Repository.DatabaseRepository.DatabaseRepository" scope="singleton">
+        <property name="databaseManager" ref="databaseManager" />
+        <property name="tableManager">
+            <bean id="candidateTableManager" class="DatabaseManager.TableManager.CandidateTableManager" scope="singleton">
+                <property name="databaseConfigLoader" ref="databaseConfigLoader"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="sectionRepository" class="Repository.DatabaseRepository.DatabaseRepository" scope="singleton">
+        <property name="databaseManager" ref="databaseManager" />
+        <property name="tableManager">
+            <bean id="sectionTableManager" class="DatabaseManager.TableManager.SectionTableManager" scope="singleton">
+                <property name="databaseConfigLoader" ref="databaseConfigLoader"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="optionsRepository" class="Repository.DatabaseRepository.DatabaseRepository" scope="singleton">
+        <property name="databaseManager" ref="databaseManager" />
+        <property name="tableManager">
+            <bean id="optionTableManager" class="DatabaseManager.TableManager.OptionTableManager" scope="singleton">
+                <property name="databaseConfigLoader" ref="databaseConfigLoader"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="CandidateValidator" class="Validator.CandidateValidator" scope="singleton"/>
+    <bean id="OptionValidator" class = "Validator.OptionValidator" scope="singleton"/>
+    <bean id="SectionValidator" class="Validator.SectionValidator" scope="singleton"/>
+
+    <bean id="CandidateController" class="Controller.CandidateController" scope="singleton">
+        <property name="repository" ref="candidateRepository"/>
+        <property name="validator" ref="CandidateValidator"/>
+    </bean>
+
+    <bean id="SectionController" class="Controller.SectionController" scope="singleton">
+        <property name="repository" ref="sectionRepository"/>
+        <property name="validator" ref="SectionValidator"/>
+    </bean>
+
+    <bean id="OptionController" class="Controller.OptionController" scope="singleton">
+        <property name="repository" ref="optionsRepository"/>
+        <property name="validator" ref="OptionValidator"/>
+        <property name="candidateRepository" ref="candidateRepository"/>
+        <property name="sectionRepository" ref="sectionRepository"/>
+    </bean>
+
+
+</beans>

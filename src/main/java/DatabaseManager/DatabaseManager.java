@@ -4,6 +4,7 @@ import DatabaseManager.DatabaseDomain.Query;
 import DatabaseManager.DatabaseExceptions.DatabaseException;
 import DatabaseManager.TableManager.AbstractTableManager;
 import Domain.HasID;
+import Helper.ConfigLoader.DatabaseConfigLoader;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,21 +15,27 @@ import java.util.List;
  * Created by andrei on 2017-01-03.
  */
 public class DatabaseManager {
-    private static DatabaseManager instance = null;
     private Connection connection;
 
-    private DatabaseManager(String Driver, String databaseURL, String username, String password) throws DatabaseException {
+    private DatabaseConfigLoader databaseConfigLoader;
+
+
+
+    public DatabaseManager(){
+    }
+
+
+    public void setDatabaseConfigLoader(DatabaseConfigLoader databaseConfigLoader) throws DatabaseException
+    {
         try {
-            Class.forName(Driver);
-            connection = DriverManager.getConnection(databaseURL, username, password);
+            Class.forName(databaseConfigLoader.getJDBCDriver());
+            connection = DriverManager.getConnection(
+                    databaseConfigLoader.getDBURL(),
+                    databaseConfigLoader.getUser(),
+                    databaseConfigLoader.getPassword());
         } catch (Exception e) {
             throw new DatabaseException(e.getMessage());
         }
-    }
-
-    public static DatabaseManager newInstance(String Driver, String databaseURL, String username, String password) throws DatabaseException {
-        if (instance == null) instance = new DatabaseManager(Driver, databaseURL, username, password);
-        return instance;
     }
 
     @Override

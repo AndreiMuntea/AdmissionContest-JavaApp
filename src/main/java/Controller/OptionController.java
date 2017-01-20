@@ -34,15 +34,19 @@ public class OptionController extends AbstractController<Pair<Integer, Integer>,
     private IRepository<Integer, Section> sectionRepository;
     private HashMap<String, IImageExporter> imageExporters;
 
-    public OptionController(IRepository<Pair<Integer, Integer>, Option> repository,
-                            IValidator<Option> validator,
-                            IRepository<Integer, Candidate> candidateRepository,
-                            IRepository<Integer, Section> sectionRepository) {
-        super(repository, validator);
-        this.candidateRepository = candidateRepository;
-        this.sectionRepository = sectionRepository;
+    public OptionController(){
         this.imageExporters = new HashMap<>();
         loadImageExporters();
+    }
+
+    public void setSectionRepository(IRepository<Integer, Section> sectionRepository)
+    {
+        this.sectionRepository = sectionRepository;
+    }
+
+    public void setCandidateRepository(IRepository<Integer,Candidate> candidateRepository)
+    {
+        this.candidateRepository = candidateRepository;
     }
 
     @Override

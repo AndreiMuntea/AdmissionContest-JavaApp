@@ -2,6 +2,7 @@ package DatabaseManager.TableManager;
 
 import DatabaseManager.DatabaseDomain.Query;
 import Domain.HasID;
+import Helper.ConfigLoader.DatabaseConfigLoader;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,12 +17,8 @@ public abstract class AbstractTableManager<ID, E extends HasID<ID>> {
 
     protected String tableName;
 
-    public AbstractTableManager(String tableName) {
-        this.tableName = tableName;
-    }
+    public AbstractTableManager(){}
 
-    public AbstractTableManager() {
-    }
 
     public String getTableName() {
         return tableName;

@@ -15,8 +15,7 @@ import Validator.IValidator;
  * Created by andrei on 2017-01-04.
  */
 public class SectionController extends AbstractController<Integer, Section> {
-    public SectionController(IRepository<Integer, Section> repository, IValidator<Section> validator) {
-        super(repository, validator);
+    public SectionController() {
     }
 
     @Override

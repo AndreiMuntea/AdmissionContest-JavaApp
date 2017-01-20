@@ -2,6 +2,7 @@ package DatabaseManager.TableManager;
 
 import DatabaseManager.DatabaseDomain.Query;
 import Domain.Section;
+import Helper.ConfigLoader.DatabaseConfigLoader;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,10 +14,11 @@ import java.util.Map;
  * Created by andrei on 2017-01-04.
  */
 public class SectionTableManager extends AbstractTableManager<Integer, Section> {
-    public SectionTableManager(String tableName) {
-        super(tableName);
-    }
 
+    public void setDatabaseConfigLoader(DatabaseConfigLoader databaseConfigLoader)
+    {
+        this.tableName = databaseConfigLoader.getSectionsTable();
+    }
     @Override
     public Map<String, String> mapObject(Section object) {
         Map<String, String> properties = new HashMap<String, String>();

@@ -22,14 +22,21 @@ public abstract class AbstractController<ID, T> extends AbstractObservable<T> {
     private IRepository<ID, T> repository;
     private IValidator<T> validator;
 
-    public AbstractController(IRepository<ID, T> repository, IValidator<T> validator) {
-        this.repository = repository;
-        this.validator = validator;
-
+    public AbstractController() {
         this.exporters = new HashMap<>();
         this.filters = new HashMap<>();
 
         loadExporters();
+    }
+
+    public void setRepository(IRepository<ID,T> repository)
+    {
+        this.repository = repository;
+    }
+
+    public void setValidator(IValidator<T> validator)
+    {
+        this.validator = validator;
     }
 
     public void Add(String... format) throws MyException {

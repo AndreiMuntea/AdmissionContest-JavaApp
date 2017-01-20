@@ -2,6 +2,7 @@ package DatabaseManager.TableManager;
 
 import DatabaseManager.DatabaseDomain.Query;
 import Domain.Candidate;
+import Helper.ConfigLoader.DatabaseConfigLoader;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,12 +16,12 @@ import java.util.Map;
 public class CandidateTableManager extends AbstractTableManager<Integer, Candidate> {
 
 
-    public CandidateTableManager() {
+
+    public void setDatabaseConfigLoader(DatabaseConfigLoader databaseConfigLoader)
+    {
+        this.tableName = databaseConfigLoader.getCandidatesTable();
     }
 
-    public CandidateTableManager(String tableName) {
-        super(tableName);
-    }
 
     @Override
     public Map<String, String> mapObject(Candidate object) {

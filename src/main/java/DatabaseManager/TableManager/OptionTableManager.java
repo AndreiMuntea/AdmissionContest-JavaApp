@@ -2,6 +2,7 @@ package DatabaseManager.TableManager;
 
 import DatabaseManager.DatabaseDomain.Query;
 import Domain.Option;
+import Helper.ConfigLoader.DatabaseConfigLoader;
 import Utils.Pair.Pair;
 
 import java.sql.ResultSet;
@@ -14,8 +15,10 @@ import java.util.Map;
  */
 public class OptionTableManager extends AbstractTableManager<Pair<Integer, Integer>, Option> {
 
-    public OptionTableManager(String tableName) {
-        super(tableName);
+
+    public void setDatabaseConfigLoader(DatabaseConfigLoader databaseConfigLoader)
+    {
+        this.tableName = databaseConfigLoader.getOptionsTable();
     }
 
     @Override

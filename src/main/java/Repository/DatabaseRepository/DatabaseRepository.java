@@ -19,9 +19,17 @@ public class DatabaseRepository<ID, E extends HasID<ID>> implements IRepository<
     protected AbstractTableManager<ID, E> tableManager;
     protected DatabaseManager databaseManager;
 
-    public DatabaseRepository(DatabaseManager databaseManager, AbstractTableManager<ID, E> tableManager) {
-        this.tableManager = tableManager;
+    public DatabaseRepository() {
+    }
+
+    public void setDatabaseManager(DatabaseManager databaseManager)
+    {
         this.databaseManager = databaseManager;
+    }
+
+    public void setTableManager(AbstractTableManager<ID,E> tableManager)
+    {
+        this.tableManager = tableManager;
     }
 
     public void AddElement(E element) throws RepositoryException {
