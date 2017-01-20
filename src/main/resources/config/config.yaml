@@ -2,6 +2,6 @@ page_size : 16
 
 super_users:
     - username: 'Admin'
-      password: '1234'
+      password: '444SDe4tirbsNxnGvJUnnA=='
     - username: 'Super User'
-      password: '5678'
+      password: '1kvJ53SKyjy3n0r8E4GGOw=='

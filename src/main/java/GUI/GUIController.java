@@ -107,7 +107,7 @@ public class GUIController implements IObserver<UsersController>{
         usersStage = new Stage();
         usersStage.initModality(Modality.APPLICATION_MODAL);
         usersStage.setResizable(false);
-        usersStage.setTitle("Logged in as Restricted User");
+        usersStage.setTitle("Restricted User");
         usersLoader = new FXMLLoader(getClass().getResource("/GUI/users.fxml"));
         usersScene = usersLoader.load();
         usersController = usersLoader.getController();
@@ -199,7 +199,7 @@ public class GUIController implements IObserver<UsersController>{
             title = "Super user";
         }
 
-        usersStage.setTitle("Logged in as " + title);
+        usersStage.setTitle(title);
         setImage();
         updateRestrictions();
     }

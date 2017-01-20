@@ -51,6 +51,7 @@ public class UsersController extends AbstractObservable<UsersController> {
 
     private String userName;
 
+
     public UsersController() {
     }
 
@@ -72,15 +73,19 @@ public class UsersController extends AbstractObservable<UsersController> {
         } else {
             String user = userNameTextField.getText();
             String pass = passwordTextField.getText();
-            if(!config.exists(user,pass))
-            {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid User/Password combination!");
-                alert.showAndWait();
-            }
-            else {
-                this.userName = user;
-                userType = UserType.SUPER_USER;
-                update();
+            try {
+                if(!config.exists(user,pass))
+                {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid User/Password combination!");
+                    alert.showAndWait();
+                }
+                else {
+                    this.userName = user;
+                    userType = UserType.SUPER_USER;
+                    update();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
@@ -110,7 +115,7 @@ public class UsersController extends AbstractObservable<UsersController> {
         if (userType == UserType.SUPER_USER) {
             passwordTextField.setVisible(false);
             passLabel.setVisible(false);
-            userLabel.setText("Logged in as: ");
+            userLabel.setText("Authenticated: ");
             userNameTextField.setText(this.userName);
             userNameTextField.setEditable(false);
             userImage.setImage(superUserImage);

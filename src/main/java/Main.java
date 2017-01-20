@@ -12,6 +12,8 @@ import Domain.Section;
 import GUI.GUI;
 import Helper.ConfigLoader.ConfigLoader;
 import Helper.ConfigLoader.DatabaseConfigLoader;
+import Helper.Encryptor.AESEncryptor;
+import Helper.Encryptor.IEncryption;
 import Repository.DatabaseRepository.DatabaseRepository;
 import Repository.IRepository;
 import Utils.Pair.Pair;
@@ -38,7 +40,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        ConfigLoader config = ConfigLoader.newInstance(URLDecoder.decode(getClass().getResource("/config/config.yaml").getFile(), "UTF-8"));
+        IEncryption encriptor = new AESEncryptor();
+
+        ConfigLoader config = ConfigLoader.newInstance(URLDecoder.decode(getClass().getResource("/config/config.yaml").getFile(), "UTF-8"), encriptor);
         DatabaseConfigLoader databaseConfigLoader = DatabaseConfigLoader.newInstance(URLDecoder.decode(getClass().getResource("/config/database.yaml").getFile(), "UTF-8"));
 
         DatabaseManager dbManager = DatabaseManager.newInstance(

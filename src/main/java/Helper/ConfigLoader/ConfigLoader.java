@@ -1,5 +1,6 @@
 package Helper.ConfigLoader;
 
+import Helper.Encryptor.IEncryption;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
@@ -17,15 +18,17 @@ public class ConfigLoader {
     private String configFile;
     private Yaml yaml;
     private Map<?, ?> config;
+    private IEncryption encryptor;
 
-    private ConfigLoader(String configFile) {
+    private ConfigLoader(String configFile, IEncryption encryptor) {
         this.configFile = configFile;
         this.yaml = new Yaml();
+        this.encryptor = encryptor;
         this.loadConfiguration();
     }
 
-    public static ConfigLoader newInstance(String configFile) {
-        if (instance == null) instance = new ConfigLoader(configFile);
+    public static ConfigLoader newInstance(String configFile, IEncryption encryptor) {
+        if (instance == null) instance = new ConfigLoader(configFile, encryptor);
         return instance;
     }
 
@@ -53,7 +56,12 @@ public class ConfigLoader {
         Boolean found = false;
 
         for(Map<String,String> c : allUsers) {
-            found = found || (c.get("username").equals(userName) && c.get("password").equals(password));
+            try {
+               String p = encryptor.encrypt(password);
+                found = found || (c.get("username").equals(userName) && c.get("password").equals(encryptor.encrypt(password)));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         return found;
