@@ -28,13 +28,13 @@
             <HBox prefHeight="75.0" prefWidth="300.0" spacing="10.0">
                <children>
                   <Label fx:id="userLabel" prefWidth="90.0" text="Username" />
-                  <TextField fx:id="userNameTextField" prefHeight="31.0" prefWidth="198.0" />
+                  <TextField fx:id="userNameTextField" onAction="#handleButton" prefHeight="31.0" prefWidth="198.0" />
                </children>
             </HBox>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
                   <Label fx:id="passLabel" prefWidth="90.0" text="Password" />
-                  <PasswordField fx:id="passwordTextField" prefHeight="31.0" prefWidth="198.0" />
+                  <PasswordField fx:id="passwordTextField" onAction="#handleButton" prefHeight="31.0" prefWidth="198.0" />
                </children>
             </HBox>
          </children>

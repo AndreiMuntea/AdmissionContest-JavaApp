@@ -1,4 +1,4 @@
-page_size : 13
+page_size : 16
 
 super_users:
     - username: 'Admin'
