@@ -39,9 +39,17 @@ public class UsersController extends AbstractObservable<UsersController> {
     @FXML
     Button logButton;
 
+    @FXML
+    Label userLabel;
+
+    @FXML
+    Label passLabel;
+
     private UserType userType;
     private Stage mainStage;
     private ConfigLoader config;
+
+    private String userName;
 
     public UsersController() {
     }
@@ -50,6 +58,7 @@ public class UsersController extends AbstractObservable<UsersController> {
         this.userType = userType;
         this.mainStage = mainStage;
         this.config = config;
+        this.userName = "";
 
         this.mainStage.setOnCloseRequest(e->{clearData();});
 
@@ -69,11 +78,11 @@ public class UsersController extends AbstractObservable<UsersController> {
                 alert.showAndWait();
             }
             else {
+                this.userName = user;
                 userType = UserType.SUPER_USER;
                 update();
             }
         }
-        clearData();
     }
 
     public UserType getUserType() {
@@ -92,9 +101,18 @@ public class UsersController extends AbstractObservable<UsersController> {
             userImage.setImage(restrictedUserImage);
             logButtonImageView.setImage(logInImage);
             logButton.setTooltip(null);
+            passwordTextField.setVisible(true);
+            passLabel.setVisible(true);
+            userLabel.setText("Username");
+            userNameTextField.setEditable(true);
             logButton.setTooltip(new Tooltip("Log in as Super User"));
         }
         if (userType == UserType.SUPER_USER) {
+            passwordTextField.setVisible(false);
+            passLabel.setVisible(false);
+            userLabel.setText("Logged in as: ");
+            userNameTextField.setText(this.userName);
+            userNameTextField.setEditable(false);
             userImage.setImage(superUserImage);
             logButtonImageView.setImage(logOutImage);
             logButton.setTooltip(null);

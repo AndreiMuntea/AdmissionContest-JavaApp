@@ -172,9 +172,10 @@ public class SectionsGUIController implements IObserver<Section> {
     public void exportButtonHandler() {
         DirectoryChooser d = new DirectoryChooser();
         try {
+            HashMap<String,String> filters = loadFilters();
             String directoryPath = d.showDialog(sectionsExportStage).getPath();
             String exportOption = optionsComboBox.getValue();
-            sectionsExportGUIController.setDetails(directoryPath, exportOption);
+            sectionsExportGUIController.setDetails(directoryPath, exportOption, filters);
             sectionsExportStage.show();
         }catch (Exception ignored){}
     }

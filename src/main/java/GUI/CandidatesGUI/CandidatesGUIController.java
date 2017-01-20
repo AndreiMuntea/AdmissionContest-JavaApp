@@ -187,9 +187,10 @@ public class CandidatesGUIController implements IObserver<Candidate> {
     public void exportButtonHandler() {
         DirectoryChooser d = new DirectoryChooser();
         try {
+            HashMap<String, String> filters = loadFilters();
             String directoryPath = d.showDialog(candidatesExportStage).getPath();
             String exportOption = saveOptionComboBox.getValue();
-            candidatesExportGUIController.setDetails(directoryPath, exportOption);
+            candidatesExportGUIController.setDetails(directoryPath, exportOption, filters);
             candidatesExportStage.show();
         } catch (Exception ignored) {
         }

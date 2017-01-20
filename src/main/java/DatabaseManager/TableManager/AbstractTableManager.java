@@ -126,8 +126,7 @@ public abstract class AbstractTableManager<ID, E extends HasID<ID>> {
         return new Query(query, queryArguments);
     }
 
-
-    public Query createFilterQuery(int startRow, int rowCount, HashMap<String, String>filters)
+    public Query createFilterAllQuery(HashMap<String,String>filters)
     {
         ArrayList<String> queryArguments = new ArrayList<String>();
         String queryStatement = String.format("SELECT * FROM `%s`", tableName);
@@ -142,6 +141,12 @@ public abstract class AbstractTableManager<ID, E extends HasID<ID>> {
             query.setQuery(query.getQuery().substring(0, query.getQuery().length() - 4));
         }
 
+        return query;
+    }
+
+    public Query createFilterQuery(int startRow, int rowCount, HashMap<String, String>filters)
+    {
+        Query query = createFilterAllQuery(filters);
         query.addStatement(String.format(" LIMIT %d, %d", startRow, rowCount));
 
         return query;

@@ -25,5 +25,7 @@ public interface IRepository<ID, E>
     List<E> GetPage(Integer pageSize, Integer pageNumber) throws RepositoryException;
 
     List<E> Filter(Integer pageSize, Integer pageNumber, HashMap<String, String> filters) throws RepositoryException;
+
+    List<E> FilterAll(HashMap<String, String> filters) throws RepositoryException;
 }
 

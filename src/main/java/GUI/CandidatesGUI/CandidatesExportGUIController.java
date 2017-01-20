@@ -8,6 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.util.HashMap;
+
 /**
  * Created by andrei on 2017-01-05.
  */
@@ -31,6 +33,7 @@ public class CandidatesExportGUIController {
 
     private CandidateController candidateController;
     private Stage mainStage;
+    private HashMap<String,String> filters;
 
 
     public CandidatesExportGUIController() {
@@ -42,9 +45,10 @@ public class CandidatesExportGUIController {
         this.mainStage = mainStage;
     }
 
-    public void setDetails(String directoryPath, String exportOption) {
+    public void setDetails(String directoryPath, String exportOption, HashMap<String, String> filters) {
         directoryPathTextField.setText(directoryPath);
         exportTextField.setText(exportOption);
+        this.filters = filters;
     }
 
     public void proceedButtonHandler() {
@@ -52,7 +56,7 @@ public class CandidatesExportGUIController {
         String path = directoryPathTextField.getText();
         String fileName = fileNameTextField.getText();
         try {
-            candidateController.Export(path,fileName,option);
+            candidateController.Export(path,fileName,option,filters);
         } catch (MyException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
             alert.showAndWait();

@@ -88,6 +88,15 @@ public class DatabaseManager {
         return elements;
     }
 
+    public <ID, E extends HasID<ID>> List<E> ApplyFilters(AbstractTableManager<ID, E> tableManager, HashMap<String, String> filters)throws DatabaseException{
+        Query query = tableManager.createFilterAllQuery(filters);
+        List<E> elements = ExecuteQuery(tableManager, query);
+        if (elements == null) {
+            throw new DatabaseException("Failed to execute statement!\n");
+        }
+        return elements;
+    }
+
     public <ID, E extends HasID<ID>> boolean ExistsElement(AbstractTableManager<ID, E> tableManager, ID elementID) throws DatabaseException {
         Query query = tableManager.createGetElementQuery(elementID);
         List<E> elements = ExecuteQuery(tableManager, query);

@@ -74,10 +74,10 @@ public abstract class AbstractController<ID, T> extends AbstractObservable<T> {
         return list.stream().sorted(comparator).collect(Collectors.toList());
     }
 
-    public void Export(String path, String fileName, String option) throws MyException {
+    public void Export(String path, String fileName, String option, HashMap<String,String> filters) throws MyException {
         if (fileName.length() == 0) throw new ControllerException("File name can't be empty!\n");
         if (!exporters.containsKey(option)) throw new ControllerException("Undefined export method!\n");
-        export(exporters.get(option), path + "/" + fileName + "." + option.toLowerCase());
+        export(exporters.get(option), path + "/" + fileName + "." + option.toLowerCase(), filters);
     }
 
     public List<T> ApplyFilters(Integer pageSize, Integer pageNumber, HashMap<String, String> filters) throws MyException {
@@ -91,7 +91,7 @@ public abstract class AbstractController<ID, T> extends AbstractObservable<T> {
 
     protected abstract void loadExporters();
 
-    protected void export(ISaver<T> saver, String fileName) throws MyException {
-        saver.save(repository.GetAll(), fileName);
+    protected void export(ISaver<T> saver, String fileName, HashMap<String,String> filters) throws MyException {
+        saver.save(repository.FilterAll(filters), fileName);
     }
 }

@@ -68,4 +68,9 @@ public class DatabaseRepository<ID, E extends HasID<ID>> implements IRepository<
     public List<E> Filter(Integer pageSize, Integer pageNumber, HashMap<String, String> filters) throws RepositoryException{
         return databaseManager.ApplyFilters(tableManager, pageSize * pageNumber, pageSize, filters);
     }
+
+    @Override
+    public List<E> FilterAll(HashMap<String, String> filters) throws RepositoryException {
+        return databaseManager.ApplyFilters(tableManager, filters);
+    }
 }
