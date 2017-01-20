@@ -2,6 +2,7 @@ package GUI.CandidatesGUI;
 
 import Controller.CandidateController;
 import Domain.Candidate;
+import GUI.UsersController.UserType;
 import Utils.Exceptions.MyException;
 import Utils.ObserverFramework.IObserver;
 import javafx.beans.property.SimpleListProperty;
@@ -66,6 +67,9 @@ public class CandidatesGUIController implements IObserver<Candidate> {
 
     @FXML
     private Button deleteButton;
+
+    @FXML
+    private Button warningButton;
 
     @FXML
     private Button exportButton;
@@ -174,6 +178,12 @@ public class CandidatesGUIController implements IObserver<Candidate> {
         }
     }
 
+    public void warningButtonHandler()
+    {
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Some features might not be available!\nPlease log in as super user for full access!");
+        alert.showAndWait();
+    }
+
     public void exportButtonHandler() {
         DirectoryChooser d = new DirectoryChooser();
         try {
@@ -263,6 +273,15 @@ public class CandidatesGUIController implements IObserver<Candidate> {
             filterByGradeTextField.getStyleClass().add("error");
         }
     }
+
+    public void setRestrictions(UserType userType)
+    {
+        addButton.setDisable(userType == UserType.NORMAL_USER);
+        updateButton.setDisable(userType == UserType.NORMAL_USER);
+        deleteButton.setDisable(userType == UserType.NORMAL_USER);
+        warningButton.setVisible(userType == UserType.NORMAL_USER);
+    }
+
 
     @Override
     public void update() {

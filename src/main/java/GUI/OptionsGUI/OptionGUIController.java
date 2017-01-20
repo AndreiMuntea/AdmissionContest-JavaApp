@@ -5,6 +5,7 @@ import Domain.Candidate;
 import Domain.Section;
 import GUI.OptionsGUI.Reports.AverageSectionsController;
 import GUI.OptionsGUI.Reports.TopSectionsController;
+import GUI.UsersController.UserType;
 import Utils.Exceptions.MyException;
 import Utils.ObserverFramework.IObserver;
 import javafx.beans.property.SimpleListProperty;
@@ -69,6 +70,9 @@ public class OptionGUIController implements IObserver {
 
     @FXML
     private Button deleteButton;
+
+    @FXML
+    private Button warningButton;
 
     @FXML
     private Slider slider;
@@ -253,6 +257,20 @@ public class OptionGUIController implements IObserver {
             alert.showAndWait();
         }
     }
+    public void setRestrictions(UserType userType)
+    {
+        addButton.setDisable(userType == UserType.NORMAL_USER);
+        deleteButton.setDisable(userType == UserType.NORMAL_USER);
+        warningButton.setVisible(userType == UserType.NORMAL_USER);
+    }
+
+
+    public void warningButtonHandler()
+    {
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Some features might not be available!\nPlease log in as super user for full access!");
+        alert.showAndWait();
+    }
+
 
     private String[] getIDs() {
         String[] id = new String[2];

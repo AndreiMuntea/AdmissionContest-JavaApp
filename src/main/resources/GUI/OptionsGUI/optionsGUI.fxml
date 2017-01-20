@@ -100,6 +100,17 @@
                    <Separator orientation="VERTICAL" prefHeight="200.0" />
                    <Pane prefHeight="30.0" prefWidth="286.0" />
                    <fx:define>
+                       <Image fx:id="warningButtonImg" url="@../images/restricted.png" />
+                   </fx:define>
+                   <Button fx:id="warningButton" mnemonicParsing="false" onMouseClicked="#warningButtonHandler" prefHeight="30.0" prefWidth="36.0">
+                       <tooltip>
+                           <Tooltip text="Warning" />
+                       </tooltip>
+                       <graphic>
+                           <ImageView image="$warningButtonImg"/>
+                       </graphic>
+                   </Button>
+                   <fx:define>
                        <Image fx:id="addBtnImage" url="@../images/add1.png" />
                    </fx:define>
                   <Button fx:id="addButton" mnemonicParsing="false" onMouseClicked="#registerCandidate">

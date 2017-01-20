@@ -1,0 +1,7 @@
+page_size : 13
+
+super_users:
+    - username: 'Admin'
+      password: '1234'
+    - username: 'Super User'
+      password: '5678'

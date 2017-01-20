@@ -109,7 +109,18 @@
             <HBox alignment="BOTTOM_RIGHT" prefHeight="20.0" prefWidth="429.0" spacing="10.0">
                <children>
                   <Separator orientation="VERTICAL" prefHeight="200.0" prefWidth="0.0" />
-                  <Pane prefHeight="31.0" prefWidth="376.0" />
+                  <Pane prefHeight="31.0" prefWidth="346.0" />
+                  <fx:define>
+                     <Image fx:id="warningButtonImg" url="@../images/restricted.png" />
+                  </fx:define>
+                  <Button fx:id="warningButton" mnemonicParsing="false" onMouseClicked="#warningButtonHandler" prefHeight="30.0" prefWidth="36.0">
+                     <tooltip>
+                        <Tooltip text="Warning" />
+                     </tooltip>
+                     <graphic>
+                        <ImageView image="$warningButtonImg"/>
+                     </graphic>
+                  </Button>
                   <fx:define>
                      <Image fx:id="addBtnImage" url="@../images/add1.png" />
                   </fx:define>
@@ -209,6 +220,7 @@
                            <String fx:value="CSV" />
                            <String fx:value="TXT" />
                            <String fx:value="PDF" />
+                           <String fx:value="XML" />
                         </FXCollections>
                      </items>
                      <value>

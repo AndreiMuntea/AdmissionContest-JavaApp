@@ -7,6 +7,7 @@ import Helper.Saver.FileSaver.HTMLFile.SectionHTMLSaver;
 import Helper.Saver.FileSaver.TextFile.SectionFileSaver;
 import Helper.Saver.ISaver;
 import Helper.Saver.PDFFile.SectionPDFSaver;
+import Helper.Saver.XMLFile.SectionXMLSaver;
 import Repository.IRepository;
 import Validator.IValidator;
 
@@ -54,5 +55,6 @@ public class SectionController extends AbstractController<Integer, Section> {
         exporters.put("HTML",new SectionHTMLSaver());
         exporters.put("CSV",new SectionCSVFileSaver());
         exporters.put("TXT",new SectionFileSaver());
+        exporters.put("XML",new SectionXMLSaver());
     }
 }

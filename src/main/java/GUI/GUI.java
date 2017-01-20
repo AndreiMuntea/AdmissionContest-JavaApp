@@ -3,6 +3,8 @@ package GUI;
 import Controller.CandidateController;
 import Controller.OptionController;
 import Controller.SectionController;
+import GUI.UsersController.UsersController;
+import Helper.ConfigLoader.ConfigLoader;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,18 +22,17 @@ public class GUI {
     private FXMLLoader GUILoader;
     private GUIController GUIController;
 
-
     public GUI(Stage mainStage,
                CandidateController candidateController,
                SectionController sectionController,
                OptionController optionController,
-               int pageSize) throws Exception {
+               ConfigLoader config) throws Exception {
         this.mainStage = mainStage;
 
         GUILoader = new FXMLLoader(getClass().getResource("/GUI/gui.fxml"));
         mainScene = GUILoader.load();
         GUIController = GUILoader.getController();
-        GUIController.initialiseComponents(candidateController, sectionController, optionController, pageSize);
+        GUIController.initialiseComponents(candidateController, sectionController, optionController, config);
     }
 
     public void start(){

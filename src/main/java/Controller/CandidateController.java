@@ -7,6 +7,7 @@ import Helper.Saver.FileSaver.HTMLFile.CandidateHTMLSaver;
 import Helper.Saver.FileSaver.TextFile.CandidateFileSaver;
 import Helper.Saver.ISaver;
 import Helper.Saver.PDFFile.CandidatePDFSaver;
+import Helper.Saver.XMLFile.CandidatesXMLSaver;
 import Repository.IRepository;
 import Utils.Exceptions.MyException;
 import Validator.IValidator;
@@ -63,6 +64,7 @@ public class CandidateController extends AbstractController<Integer, Candidate> 
         exporters.put("HTML",new CandidateHTMLSaver());
         exporters.put("CSV",new CandidateCSVFileSaver());
         exporters.put("TXT",new CandidateFileSaver());
+        exporters.put("XML",new CandidatesXMLSaver());
     }
 
 }

@@ -10,6 +10,7 @@ import Domain.Candidate;
 import Domain.Option;
 import Domain.Section;
 import GUI.GUI;
+import Helper.ConfigLoader.ConfigLoader;
 import Helper.ConfigLoader.DatabaseConfigLoader;
 import Repository.DatabaseRepository.DatabaseRepository;
 import Repository.IRepository;
@@ -22,6 +23,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -36,6 +38,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+        ConfigLoader config = ConfigLoader.newInstance(URLDecoder.decode(getClass().getResource("/config/config.yaml").getFile(), "UTF-8"));
         DatabaseConfigLoader databaseConfigLoader = DatabaseConfigLoader.newInstance(URLDecoder.decode(getClass().getResource("/config/database.yaml").getFile(), "UTF-8"));
 
         DatabaseManager dbManager = DatabaseManager.newInstance(
@@ -60,7 +63,7 @@ public class Main extends Application {
         IValidator<Option> optionValidator = new OptionValidator();
         OptionController optionController = new OptionController(optionRepository, optionValidator, candidateRepository, sectionRepository);
 
-        GUI gui = new GUI(primaryStage, candidateController, sectionController, optionController, 13);
+        GUI gui = new GUI(primaryStage, candidateController, sectionController, optionController, config);
         gui.start();
     }
 }

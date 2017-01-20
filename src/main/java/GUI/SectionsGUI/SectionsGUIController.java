@@ -2,6 +2,7 @@ package GUI.SectionsGUI;
 
 import Controller.SectionController;
 import Domain.Section;
+import GUI.UsersController.UserType;
 import Utils.Exceptions.MyException;
 import Utils.ObserverFramework.IObserver;
 import javafx.beans.property.SimpleListProperty;
@@ -68,6 +69,9 @@ public class SectionsGUIController implements IObserver<Section> {
 
     @FXML
     private Button nextPageButton;
+
+    @FXML
+    private Button warningButton;
 
     @FXML
     private ComboBox<String> optionsComboBox;
@@ -249,6 +253,20 @@ public class SectionsGUIController implements IObserver<Section> {
             filterByAvailableSlotsTextField.setTooltip(new Tooltip("Argument should be a valid number!"));
             filterByAvailableSlotsTextField.getStyleClass().add("error");
         }
+    }
+
+    public void setRestrictions(UserType userType)
+    {
+        addButton.setDisable(userType == UserType.NORMAL_USER);
+        updateButton.setDisable(userType == UserType.NORMAL_USER);
+        deleteButton.setDisable(userType == UserType.NORMAL_USER);
+        warningButton.setVisible(userType == UserType.NORMAL_USER);
+    }
+
+    public void warningButtonHandler()
+    {
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Some features might not be available!\nPlease log in as super user for full access!");
+        alert.showAndWait();
     }
 
     @Override
